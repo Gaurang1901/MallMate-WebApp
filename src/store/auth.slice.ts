@@ -8,7 +8,7 @@ export const loginUser = createAsyncThunk<
   AuthResponse,
   LoginPayload,
   { rejectValue: string }
->("auth/login", async (userData, thunkAPI) => {
+>("auth/signin", async (userData, thunkAPI) => {
   try {
     const response = await axios.post<AuthResponse>(
       `${API_URL}/auth/signin`,
