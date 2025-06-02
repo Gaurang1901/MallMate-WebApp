@@ -6,6 +6,7 @@ import { getTheme } from "./utils/themes";
 import { useState } from "react";
 import { NotificationProvider } from "./context/NotificationContext";
 import { Header } from "./shared/components/Header";
+import HomePage from "./pages/Home/homePage";
 
 function App() {
   const [mode, setMode] = useState<"light" | "dark">("dark");
@@ -22,7 +23,7 @@ function App() {
           <Routes>
             <Route path="/login" element={<LoginPage />} />
             <Route path="/signup" element={<SignupPage />} />
-            <Route path="/" element={<Navigate to="/login" replace />} />
+            <Route path="/" element={<HomePage />} />
           </Routes>
         </Router>
       </NotificationProvider>
