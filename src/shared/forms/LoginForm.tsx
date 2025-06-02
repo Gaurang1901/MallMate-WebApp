@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { TextField, Button, IconButton, InputAdornment } from "@mui/material";
 import type { LoginForm } from "../models/Auth.model";
-import { useDispatch, useSelector } from "react-redux";
-import type { AppDispatch } from "../../store";
+import { useSelector } from "react-redux";
+// import type { AppDispatch } from "../../store";
 import { useNotification } from "../../context/NotificationContext";
 import { motion } from "framer-motion";
 import VisibilityIcon from "@mui/icons-material/Visibility";
@@ -14,7 +14,7 @@ const MotionTextField = motion(TextField);
 const MotionButton = motion(Button);
 
 const LoginFormComponent: React.FC = () => {
-  const dispatch = useDispatch<AppDispatch>();
+  // const dispatch = useDispatch<AppDispatch>();
   const navigation = useNavigate();
   const { loading, user, token, error } = useSelector(
     (state: any) => state.auth
@@ -39,6 +39,8 @@ const LoginFormComponent: React.FC = () => {
 
   const onSubmit: SubmitHandler<LoginForm> = (data) => {
     showNotification("Backend Not Available!", "info");
+    console.log(data);
+
     navigation("/");
     // dispatch(loginUser(data));
   };

@@ -6,10 +6,9 @@ import {
   NavigationMenuLink,
   NavigationMenuList,
   NavigationMenuTrigger,
-  navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu"
 import { cn } from "@/lib/utils"
-import { ShoppingBag, Home, Utensils, Shirt, BookOpen, Gamepad2, Heart, Gift } from 'lucide-react'
+import {  Utensils, Shirt, BookOpen, Gamepad2, Heart, Gift } from 'lucide-react'
 import { useTheme } from '@mui/material/styles'
 import { Box } from '@mui/material'
 

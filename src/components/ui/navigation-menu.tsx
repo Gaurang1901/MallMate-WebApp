@@ -3,7 +3,7 @@ import * as NavigationMenuPrimitive from "@radix-ui/react-navigation-menu"
 import { cva } from "class-variance-authority"
 import { ChevronDownIcon } from "lucide-react"
 import { useTheme } from '@mui/material/styles'
-import { Box, styled } from '@mui/material'
+import { styled } from '@mui/material'
 
 import { cn } from "@/lib/utils"
 
@@ -46,7 +46,7 @@ function NavigationMenu({
 }: React.ComponentProps<typeof NavigationMenuPrimitive.Root> & {
   viewport?: boolean
 }) {
-  const theme = useTheme()
+  // const theme = useTheme()
   return (
     <NavigationMenuPrimitive.Root
       data-slot="navigation-menu"

@@ -9,7 +9,6 @@ import {
   useTheme,
   Box,
   Typography,
-  IconButton,
   Avatar,
 } from "@mui/material";
 import HomeIcon from "@mui/icons-material/Home";

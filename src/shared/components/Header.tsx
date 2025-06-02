@@ -131,7 +131,7 @@ export const Header: React.FC<HeaderProps> = ({
 
             {/* Desktop Navigation */}
             <nav className="hidden md:flex items-center space-x-1">
-              {headerLinks.map((item, index) => (
+              {headerLinks.map((item) => (
                 <MotionButton
                   key={item.id}
                   onClick={() => (window.location.href = item.route)}
