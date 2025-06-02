@@ -1,23 +1,81 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import CategoriesMenu from './components/CategoriesMenu'
-import { motion } from 'framer-motion'
+import { motion, AnimatePresence } from 'framer-motion'
 import { Search, MapPin, Clock, Store, Users, Star } from 'lucide-react'
 import { useTheme } from '@mui/material/styles'
+import { Box, useMediaQuery } from '@mui/material'
+import ProductCarousel from '@/pages/Home/components/ProductCarousel'
+
+// Import background images
+import bg1 from '../../assets/Shopping-Mall-Home-Bg-1.png'
+import bg2 from '../../assets/Shopping-Mall-Home-Bg-2.png'
+import bg3 from '../../assets/Shopping-Mall-Home-Bg-3.png'
+import bg4 from '../../assets/Shopping-Mall-Home-Bg-4.png'
+import bg5 from '../../assets/Shopping-Mall-Home-Bg-5.png'
+
+const backgrounds = [bg1, bg2, bg3, bg4, bg5]
 
 const HomePage: React.FC = () => {
   const theme = useTheme()
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'))
+  const [currentImageIndex, setCurrentImageIndex] = useState(0)
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentImageIndex((prevIndex) => (prevIndex + 1) % backgrounds.length)
+    }, 5000)
+
+    return () => clearInterval(interval)
+  }, [])
 
   return (
-    <div className="min-h-screen bg-background">
+    <Box 
+      className="min-h-screen" 
+      sx={{ 
+        bgcolor: theme.palette.background.default,
+        color: theme.palette.text.primary
+      }}
+    >
       {/* Hero Section */}
-      <section className="relative h-[60vh] bg-gradient-to-r from-primary/20 via-primary/10 to-background">
-        <div className="absolute inset-0 bg-grid-white/10 [mask-image:linear-gradient(0deg,white,rgba(255,255,255,0.6))]" />
+      <section className="relative h-[60vh] overflow-hidden">
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={currentImageIndex}
+            initial={{ opacity: 0, scale: 1.1 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.9 }}
+            transition={{ duration: 1.5, ease: "easeInOut" }}
+            className="absolute inset-0"
+          >
+            <motion.div
+              animate={{ scale: [1, 1.1, 1] }}
+              transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
+              className="absolute inset-0"
+              style={{
+                backgroundImage: `url(${backgrounds[currentImageIndex]})`,
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
+              }}
+            />
+            <Box 
+              className="absolute inset-0" 
+              sx={{ 
+                bgcolor: theme.palette.mode === 'dark' ? 'rgba(0, 0, 0, 0.5)' : 'rgba(0, 0, 0, 0.3)',
+                background: `linear-gradient(to right, ${theme.palette.primary.main}33, ${theme.palette.primary.main}11, ${theme.palette.background.default}33)`
+              }} 
+            />
+          </motion.div>
+        </AnimatePresence>
         <div className="relative container mx-auto px-4 h-full flex flex-col items-center justify-center text-center">
           <motion.h1 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
-            className="text-4xl md:text-6xl font-bold mb-6 text-foreground"
+            style={{ 
+              color: theme.palette.text.primary,
+              fontSize: isMobile ? '2rem' : '3.75rem'
+            }}
+            className="font-bold mb-6"
           >
             Welcome to MallMate
           </motion.h1>
@@ -25,143 +83,169 @@ const HomePage: React.FC = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.2 }}
-            className="text-lg md:text-xl text-muted-foreground mb-8 max-w-2xl"
+            style={{ 
+              color: theme.palette.text.disabled,
+              fontSize: isMobile ? '1rem' : '1.25rem'
+            }}
+            className="mb-8 max-w-2xl"
           >
             Your one-stop destination for shopping, dining, and entertainment
           </motion.p>
-          <motion.div 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.4 }}
-            className="w-full max-w-xl"
-          >
-            <div className="relative">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground" />
-              <input
-                type="text"
-                placeholder="Search for stores, restaurants, or events..."
-                className="w-full pl-10 pr-4 py-3 rounded-full border border-border bg-background/50 backdrop-blur-sm focus:outline-none focus:ring-2 focus:ring-primary text-foreground placeholder:text-muted-foreground"
-              />
-            </div>
-          </motion.div>
         </div>
       </section>
 
       {/* Categories Section */}
-      <section className="py-12 bg-background">
+      <Box 
+        component="section" 
+        className="py-12"
+        sx={{ bgcolor: theme.palette.background.default }}
+      >
         <div className="container mx-auto px-4">
-          <h2 className="text-2xl font-semibold mb-8 text-center text-foreground">Browse Categories</h2>
+          <h2 
+            className="text-2xl font-semibold mb-8 text-center"
+            style={{ color: theme.palette.text.primary }}
+          >
+            Browse Categories
+          </h2>
           <CategoriesMenu />
         </div>
-      </section>
+      </Box>
+
+      {/* Product Carousel Section */}
+      <ProductCarousel />
 
       {/* Features Section */}
-      <section className="py-16 bg-muted/50">
+      <Box 
+        component="section" 
+        className="py-16"
+        sx={{ bgcolor: theme.palette.mode === 'dark' ? 'rgba(255, 255, 255, 0.05)' : 'rgba(0, 0, 0, 0.02)' }}
+      >
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <motion.div 
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5 }}
-              className="flex flex-col items-center text-center p-6 rounded-lg bg-card shadow-sm border border-border"
-            >
-              <MapPin className="w-12 h-12 text-primary mb-4" />
-              <h3 className="text-xl font-semibold mb-2 text-foreground">Easy Navigation</h3>
-              <p className="text-muted-foreground">Find your way around the mall with our interactive map and store locator</p>
-            </motion.div>
-
-            <motion.div 
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.2 }}
-              className="flex flex-col items-center text-center p-6 rounded-lg bg-card shadow-sm border border-border"
-            >
-              <Clock className="w-12 h-12 text-primary mb-4" />
-              <h3 className="text-xl font-semibold mb-2 text-foreground">Real-time Updates</h3>
-              <p className="text-muted-foreground">Stay informed about store hours, events, and special offers</p>
-            </motion.div>
-
-            <motion.div 
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.4 }}
-              className="flex flex-col items-center text-center p-6 rounded-lg bg-card shadow-sm border border-border"
-            >
-              <Search className="w-12 h-12 text-primary mb-4" />
-              <h3 className="text-xl font-semibold mb-2 text-foreground">Smart Search</h3>
-              <p className="text-muted-foreground">Quickly find what you're looking for with our advanced search feature</p>
-            </motion.div>
+            {[
+              { icon: MapPin, title: "Easy Navigation", description: "Find your way around the mall with our interactive map and store locator" },
+              { icon: Clock, title: "Real-time Updates", description: "Stay informed about store hours, events, and special offers" },
+              { icon: Search, title: "Smart Search", description: "Quickly find what you're looking for with our advanced search feature" }
+            ].map((feature, index) => (
+              <motion.div 
+                key={feature.title}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: index * 0.2 }}
+                className="flex flex-col items-center text-center p-6 rounded-lg"
+                style={{ 
+                  backgroundColor: theme.palette.background.paper,
+                  border: `1px solid ${theme.palette.divider}`
+                }}
+              >
+                <feature.icon 
+                  className="w-12 h-12 mb-4" 
+                  style={{ color: theme.palette.primary.main }} 
+                />
+                <h3 
+                  className="text-xl font-semibold mb-2"
+                  style={{ color: theme.palette.text.primary }}
+                >
+                  {feature.title}
+                </h3>
+                <p 
+                  className="text-muted-foreground"
+                  style={{ color: theme.palette.text.secondary }}
+                >
+                  {feature.description}
+                </p>
+              </motion.div>
+            ))}
           </div>
         </div>
-      </section>
+      </Box>
 
       {/* Stats Section */}
-      <section className="py-16 bg-background">
+      <Box 
+        component="section" 
+        className="py-16"
+        sx={{ bgcolor: theme.palette.background.default }}
+      >
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-            <motion.div 
-              initial={{ opacity: 0, scale: 0.9 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.5 }}
-              className="flex flex-col items-center p-6 rounded-lg bg-card border border-border"
-            >
-              <Store className="w-8 h-8 text-primary mb-2" />
-              <h4 className="text-2xl font-bold text-foreground">200+</h4>
-              <p className="text-sm text-muted-foreground">Stores</p>
-            </motion.div>
-
-            <motion.div 
-              initial={{ opacity: 0, scale: 0.9 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.5, delay: 0.1 }}
-              className="flex flex-col items-center p-6 rounded-lg bg-card border border-border"
-            >
-              <Users className="w-8 h-8 text-primary mb-2" />
-              <h4 className="text-2xl font-bold text-foreground">50k+</h4>
-              <p className="text-sm text-muted-foreground">Visitors</p>
-            </motion.div>
-
-            <motion.div 
-              initial={{ opacity: 0, scale: 0.9 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.5, delay: 0.2 }}
-              className="flex flex-col items-center p-6 rounded-lg bg-card border border-border"
-            >
-              <Star className="w-8 h-8 text-primary mb-2" />
-              <h4 className="text-2xl font-bold text-foreground">4.8</h4>
-              <p className="text-sm text-muted-foreground">Rating</p>
-            </motion.div>
-
-            <motion.div 
-              initial={{ opacity: 0, scale: 0.9 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.5, delay: 0.3 }}
-              className="flex flex-col items-center p-6 rounded-lg bg-card border border-border"
-            >
-              <Clock className="w-8 h-8 text-primary mb-2" />
-              <h4 className="text-2xl font-bold text-foreground">24/7</h4>
-              <p className="text-sm text-muted-foreground">Support</p>
-            </motion.div>
+            {[
+              { icon: Store, value: "200+", label: "Stores" },
+              { icon: Users, value: "50k+", label: "Visitors" },
+              { icon: Star, value: "4.8", label: "Rating" },
+              { icon: Clock, value: "24/7", label: "Support" }
+            ].map((stat, index) => (
+              <motion.div 
+                key={stat.label}
+                initial={{ opacity: 0, scale: 0.9 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+                className="flex flex-col items-center p-6 rounded-lg"
+                style={{ 
+                  backgroundColor: theme.palette.background.paper,
+                  border: `1px solid ${theme.palette.divider}`
+                }}
+              >
+                <stat.icon 
+                  className="w-8 h-8 mb-2" 
+                  style={{ color: theme.palette.primary.main }} 
+                />
+                <h4 
+                  className="text-2xl font-bold"
+                  style={{ color: theme.palette.text.primary }}
+                >
+                  {stat.value}
+                </h4>
+                <p 
+                  className="text-sm"
+                  style={{ color: theme.palette.text.secondary }}
+                >
+                  {stat.label}
+                </p>
+              </motion.div>
+            ))}
           </div>
         </div>
-      </section>
+      </Box>
 
       {/* Upcoming Events Section */}
-      <section className="py-16 bg-muted/50">
+      <Box 
+        component="section" 
+        className="py-16"
+        sx={{ bgcolor: theme.palette.mode === 'dark' ? 'rgba(255, 255, 255, 0.05)' : 'rgba(0, 0, 0, 0.02)' }}
+      >
         <div className="container mx-auto px-4">
-          <h2 className="text-2xl font-semibold mb-8 text-center text-foreground">Upcoming Events</h2>
+          <h2 
+            className="text-2xl font-semibold mb-8 text-center"
+            style={{ color: theme.palette.text.primary }}
+          >
+            Upcoming Events
+          </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             <motion.div 
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
-              className="rounded-lg overflow-hidden shadow-sm border border-border bg-card"
+              className="rounded-lg overflow-hidden"
+              style={{ 
+                backgroundColor: theme.palette.background.paper,
+                border: `1px solid ${theme.palette.divider}`
+              }}
             >
-              <div className="aspect-video bg-muted" />
+              <div className="aspect-video" style={{ backgroundColor: theme.palette.mode === 'dark' ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)' }} />
               <div className="p-4">
-                <h3 className="font-semibold mb-2 text-foreground">Summer Fashion Show</h3>
-                <p className="text-sm text-muted-foreground mb-4">Join us for the latest fashion trends and exclusive collections</p>
-                <div className="flex items-center text-sm text-muted-foreground">
+                <h3 
+                  className="font-semibold mb-2"
+                  style={{ color: theme.palette.text.primary }}
+                >
+                  Summer Fashion Show
+                </h3>
+                <p 
+                  className="text-sm mb-4"
+                  style={{ color: theme.palette.text.secondary }}
+                >
+                  Join us for the latest fashion trends and exclusive collections
+                </p>
+                <div className="flex items-center text-sm" style={{ color: theme.palette.text.secondary }}>
                   <Clock className="w-4 h-4 mr-2" />
                   <span>June 15, 2024 • 2:00 PM</span>
                 </div>
@@ -169,8 +253,8 @@ const HomePage: React.FC = () => {
             </motion.div>
           </div>
         </div>
-      </section>
-    </div>
+      </Box>
+    </Box>
   )
 }
 

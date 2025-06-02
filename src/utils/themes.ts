@@ -104,12 +104,12 @@ const darkTheme: ThemeOptions = {
       contrastText: "#000000",
     },
     background: {
-      default: "#121212",
-      paper: "#0E2148",
+      default: "#0F0F0F",
+      paper: "#22092C",
     },
     text: {
       primary: "#ffffff",
-      secondary: "#b0b0b0",
+    secondary: "#b0b0b0",
     },
   },
   typography: {

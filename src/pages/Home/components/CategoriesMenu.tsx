@@ -10,6 +10,8 @@ import {
 } from "@/components/ui/navigation-menu"
 import { cn } from "@/lib/utils"
 import { ShoppingBag, Home, Utensils, Shirt, BookOpen, Gamepad2, Heart, Gift } from 'lucide-react'
+import { useTheme } from '@mui/material/styles'
+import { Box } from '@mui/material'
 
 const categories = [
   {
@@ -74,32 +76,100 @@ const categories = [
 ]
 
 const CategoriesMenu: React.FC = () => {
+  const theme = useTheme()
+
   return (
-    <div className="w-full max-w-7xl mx-auto px-4">
-      <NavigationMenu className="w-full">
+    <Box 
+      className="w-full max-w-7xl mx-auto px-4"
+      sx={{
+        '& .navigation-menu': {
+          backgroundColor: theme.palette.background.paper,
+          borderRadius: '8px',
+          boxShadow: theme.shadows[1],
+        },
+        '& .navigation-menu-trigger': {
+          backgroundColor: theme.palette.background.paper,
+          color: theme.palette.text.primary,
+          border: `1px solid ${theme.palette.divider}`,
+          '&:hover': {
+            backgroundColor: theme.palette.action.hover,
+          },
+        },
+        '& .navigation-menu-content': {
+          backgroundColor: theme.palette.background.paper,
+          border: `1px solid ${theme.palette.divider}`,
+          boxShadow: theme.shadows[4],
+        },
+        '& .navigation-menu-link': {
+          color: theme.palette.text.primary,
+          '&:hover': {
+            backgroundColor: theme.palette.action.hover,
+            color: theme.palette.primary.main,
+          },
+        },
+      }}
+    >
+      <NavigationMenu viewport={false}>
         <NavigationMenuList className="flex flex-wrap justify-center gap-2">
           {categories.map((category) => (
             <NavigationMenuItem key={category.title}>
-              <NavigationMenuTrigger className="h-9 px-4 py-2">
+              <NavigationMenuTrigger 
+                className="h-9 px-4 py-2"
+                style={{
+                  backgroundColor: theme.palette.background.paper,
+                  color: theme.palette.text.primary,
+                  border: `1px solid ${theme.palette.divider}`,
+                }}
+              >
                 <div className="flex items-center gap-2">
-                  {category.icon}
+                  <Box 
+                    component="span" 
+                    sx={{ 
+                      color: theme.palette.primary.main,
+                      display: 'flex',
+                      alignItems: 'center'
+                    }}
+                  >
+                    {category.icon}
+                  </Box>
                   <span>{category.title}</span>
                 </div>
               </NavigationMenuTrigger>
               <NavigationMenuContent>
-                <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px]">
+                <ul 
+                  className="grid w-[400px] gap-3 p-4 md:w-[400px] md:grid-cols-2 lg:w-[400px]"
+                  style={{
+                    backgroundColor: theme.palette.background.paper,
+                    borderRadius: '8px',
+                  }}
+                >
                   {category.items.map((item) => (
                     <li key={item.name}>
                       <NavigationMenuLink asChild>
-                        <a
+                        <Box
+                          component="a"
                           href={item.href}
                           className={cn(
-                            "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground",
+                            "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors",
                             "flex items-center gap-2"
                           )}
+                          sx={{
+                            color: theme.palette.text.primary,
+                            '&:hover': {
+                              backgroundColor: theme.palette.action.hover,
+                              color: theme.palette.primary.main,
+                            },
+                          }}
                         >
-                          <div className="text-sm font-medium leading-none">{item.name}</div>
-                        </a>
+                          <div 
+                            className="text-sm font-medium leading-none"
+                            style={{
+                              color: theme.palette.text.primary,
+                            }}
+                          >
+                            {item.name}
+                          </div>
+                        </Box>
                       </NavigationMenuLink>
                     </li>
                   ))}
@@ -109,7 +179,7 @@ const CategoriesMenu: React.FC = () => {
           ))}
         </NavigationMenuList>
       </NavigationMenu>
-    </div>
+    </Box>
   )
 }
 
