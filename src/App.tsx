@@ -14,7 +14,6 @@ import { Header } from "./shared/components/Header";
 import HomePage from "./pages/Home/HomePage";
 import { useSelector } from "react-redux";
 import { RootState } from "./store";
-import Footer from "./shared/components/Footer";
 
 function App() {
   const [mode, setMode] = useState<"light" | "dark">("dark");
@@ -38,7 +37,6 @@ function App() {
             <Route path="/signup" element={<SignupPage />} />
             <Route path="/" element={<HomePage />} />
           </Routes>
-          <Footer />
         </Router>
       </NotificationProvider>
     </ThemeProvider>

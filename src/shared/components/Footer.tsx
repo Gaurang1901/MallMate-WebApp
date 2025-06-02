@@ -102,10 +102,10 @@ const Footer: React.FC = () => {
             viewport={{ once: true, amount: 0.3 }}
             variants={columnVariants}
           >
-            <Box className="flex flex-col justify-between p-0 md:p-2">
+            <Box className="flex flex-col gap-3 justify-between p-0 md:p-2">
               <Typography variant="h6" className="font-bold mb-3 tracking-wide">Stay Connected</Typography>
               <Typography variant="body2" className="mb-4 text-sm">Subscribe to our newsletter for the latest news and exclusive offers.</Typography>
-              <form className="flex flex-col sm:flex-row gap-2">
+              <form className="flex flex-col gap-3">
                 <TextField
                   variant="outlined"
                   placeholder="Enter your email"
