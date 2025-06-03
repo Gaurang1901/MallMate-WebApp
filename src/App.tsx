@@ -8,7 +8,7 @@ import { NotificationProvider } from "./context/NotificationContext";
 import { Header } from "./shared/components/Header";
 import { useSelector } from "react-redux";
 import { RootState } from "./store";
-import Home from "./pages/home/Home";
+import Home from "./pages/Home/Home";
 
 function App() {
   const [mode, setMode] = useState<"light" | "dark">("dark");
