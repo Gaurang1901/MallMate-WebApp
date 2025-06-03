@@ -6,7 +6,6 @@ import { useTheme } from "@mui/material/styles";
 import { Box, useMediaQuery } from "@mui/material";
 import ProductCarousel from "./components/ProductCarousel";
 
-// Import background images
 import bg1 from "../../assets/Shopping-Mall-Home-Bg-1.png";
 import bg2 from "../../assets/Shopping-Mall-Home-Bg-2.png";
 import bg3 from "../../assets/Shopping-Mall-Home-Bg-3.png";
@@ -16,7 +15,7 @@ import Footer from "../../shared/components/Footer";
 
 const backgrounds = [bg1, bg2, bg3, bg4, bg5];
 
-const HomePage: React.FC = () => {
+const Home: React.FC = () => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
@@ -300,4 +299,4 @@ const HomePage: React.FC = () => {
   );
 };
 
-export default HomePage;
+export default Home;

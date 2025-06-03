@@ -6,9 +6,9 @@ import { getTheme } from "./utils/themes";
 import { useState } from "react";
 import { NotificationProvider } from "./context/NotificationContext";
 import { Header } from "./shared/components/Header";
-// import HomePage from "./pages/Home/HomePage";
 import { useSelector } from "react-redux";
 import { RootState } from "./store";
+import Home from "./pages/home/Home";
 
 function App() {
   const [mode, setMode] = useState<"light" | "dark">("dark");
@@ -30,7 +30,7 @@ function App() {
           <Routes>
             <Route path="/login" element={<LoginPage />} />
             <Route path="/signup" element={<SignupPage />} />
-            <Route path="/" element={<LoginPage />} />
+            <Route path="/" element={<Home />} />
           </Routes>
         </Router>
       </NotificationProvider>
