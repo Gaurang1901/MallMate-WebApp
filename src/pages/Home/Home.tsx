@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
-import CategoriesMenu from "./components/CategoriesMenu";
+// import CategoriesMenu from "./components/CategoriesMenu";
 import { motion, AnimatePresence } from "framer-motion";
 import { Search, MapPin, Clock, Store, Users, Star } from "lucide-react";
 import { useTheme } from "@mui/material/styles";
 import { Box, useMediaQuery } from "@mui/material";
-import ProductCarousel from "./components/ProductCarousel";
+// import ProductCarousel from "./components/ProductCarousel";
 
 import bg1 from "../../assets/Shopping-Mall-Home-Bg-1.png";
 import bg2 from "../../assets/Shopping-Mall-Home-Bg-2.png";
@@ -110,12 +110,12 @@ const Home: React.FC = () => {
           >
             Browse Categories
           </h2>
-          <CategoriesMenu />
+          {/* <CategoriesMenu /> */}
         </div>
       </Box>
 
       {/* Product Carousel Section */}
-      <ProductCarousel />
+      {/* <ProductCarousel /> */}
 
       {/* Features Section */}
       <Box
