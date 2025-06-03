@@ -23,6 +23,7 @@ import {
 } from "lucide-react";
 import { Sidebar } from "./Sidebar";
 import { motion } from "framer-motion";
+import { useNavigate } from "react-router-dom";
 
 const MotionBox = motion(Box);
 const MotionButton = motion(Button);
@@ -43,7 +44,7 @@ export const Header: React.FC<HeaderProps> = ({
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   const headerLinks = [
-    { id: 1, name: "Home", route: "/", icon: <Home /> },
+    { id: 1, name: "Home", route: "/home", icon: <Home /> },
     { id: 2, name: "Contact", route: "/contact", icon: <HelpCircle /> },
     { id: 3, name: "About", route: "/about", icon: <Info /> },
     { id: 4, name: "SignUp", route: "/signup", icon: <UserPlus /> },
@@ -52,6 +53,8 @@ export const Header: React.FC<HeaderProps> = ({
   const toggleSidebar = () => {
     setSidebarOpen(!sidebarOpen);
   };
+
+  const navigate = useNavigate();
 
   const containerVariants = {
     hidden: { opacity: 0, y: -50 },
@@ -136,7 +139,7 @@ export const Header: React.FC<HeaderProps> = ({
               {headerLinks.map((item) => (
                 <MotionButton
                   key={item.id}
-                  onClick={() => (window.location.href = item.route)}
+                  onClick={() => navigate(item.route)}
                   startIcon={item.icon}
                   variants={itemVariants}
                   whileHover={{
