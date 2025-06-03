@@ -7,9 +7,9 @@ import {
   CarouselItem,
   CarouselNext,
   CarouselPrevious,
-} from "@/components/ui/carousel";
+} from "../../../components/ui/carousel";
 import { ShoppingCart } from 'lucide-react';
-import { cn } from "@/lib/utils";
+import { cn } from "../../../lib/utils";
 
 // Sample product data - replace with your actual data
 const products = [

@@ -6,8 +6,8 @@ import {
   NavigationMenuLink,
   NavigationMenuList,
   NavigationMenuTrigger,
-} from "@/components/ui/navigation-menu"
-import { cn } from "@/lib/utils"
+} from "../../../components/ui/navigation-menu"
+import { cn } from "../../../lib/utils"
 import {  Utensils, Shirt, BookOpen, Gamepad2, Heart, Gift } from 'lucide-react'
 import { useTheme } from '@mui/material/styles'
 import { Box } from '@mui/material'

@@ -5,7 +5,7 @@ import { ChevronDownIcon } from "lucide-react"
 import { useTheme } from '@mui/material/styles'
 import { styled } from '@mui/material'
 
-import { cn } from "@/lib/utils"
+import { cn } from "../../lib/utils"
 
 const StyledNavigationMenuTrigger = styled(NavigationMenuPrimitive.Trigger)(({ theme }) => ({
   backgroundColor: theme.palette.background.paper,
