@@ -1,6 +1,8 @@
 import { Link } from "react-router-dom";
 import { SignupForm } from "../../shared/forms/SignupForm";
 import { motion } from "framer-motion";
+import bg from "../../assets/Login-Hero-Bg.png";
+import icon from "../../assets/MallMate-Icon-Transperant.png";
 
 const MotionDiv = motion.div;
 
@@ -9,7 +11,7 @@ const SignupPage = () => {
     <div
       className="fixed inset-0 w-full h-full flex items-center justify-center bg-cover bg-center bg-no-repeat"
       style={{
-        backgroundImage: "url('/src/assets/Login-Hero-Bg.png')",
+        backgroundImage: `url(${bg})`,
         backgroundAttachment: "fixed",
         width: '100vw',
         margin: 0,
@@ -39,7 +41,7 @@ const SignupPage = () => {
               transition={{ delay: 0.2 }}
             >
               <motion.img
-                src="/src/assets/MallMate-Icon-Transperant.png"
+                src={icon}
                 alt="MallMate"
                 className="w-30 h-30"
                 initial={{ rotate: -180, opacity: 0 }}
