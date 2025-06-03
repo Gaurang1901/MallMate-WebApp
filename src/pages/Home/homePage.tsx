@@ -4,7 +4,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Search, MapPin, Clock, Store, Users, Star } from "lucide-react";
 import { useTheme } from "@mui/material/styles";
 import { Box, useMediaQuery } from "@mui/material";
-import ProductCarousel from "@/pages/Home/components/ProductCarousel";
+import ProductCarousel from "./components/ProductCarousel";
 
 // Import background images
 import bg1 from "../../assets/Shopping-Mall-Home-Bg-1.png";
@@ -12,7 +12,7 @@ import bg2 from "../../assets/Shopping-Mall-Home-Bg-2.png";
 import bg3 from "../../assets/Shopping-Mall-Home-Bg-3.png";
 import bg4 from "../../assets/Shopping-Mall-Home-Bg-4.png";
 import bg5 from "../../assets/Shopping-Mall-Home-Bg-5.png";
-import Footer from "@/shared/components/Footer";
+import Footer from "../../shared/components/Footer";
 
 const backgrounds = [bg1, bg2, bg3, bg4, bg5];
 
