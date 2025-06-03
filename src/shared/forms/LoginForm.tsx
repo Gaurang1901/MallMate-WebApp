@@ -6,8 +6,7 @@ import { useSelector } from "react-redux";
 // import type { AppDispatch } from "../../store";
 import { useNotification } from "../../context/NotificationContext";
 import { motion } from "framer-motion";
-import VisibilityIcon from "@mui/icons-material/Visibility";
-import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
+import { Eye, EyeOff } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 const MotionTextField = motion(TextField);
@@ -88,7 +87,7 @@ const LoginFormComponent: React.FC = () => {
                 onClick={handleClickShowPassword}
                 edge="end"
               >
-                {showPassword ? <VisibilityOffIcon /> : <VisibilityIcon />}
+                {showPassword ? <EyeOff /> : <Eye />}
               </IconButton>
             </InputAdornment>
           ),

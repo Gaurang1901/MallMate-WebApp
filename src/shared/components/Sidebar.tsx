@@ -11,13 +11,15 @@ import {
   Typography,
   Avatar,
 } from "@mui/material";
-import HomeIcon from "@mui/icons-material/Home";
-import ContactMailIcon from "@mui/icons-material/ContactMail";
-import InfoIcon from "@mui/icons-material/Info";
-import PersonAddIcon from "@mui/icons-material/PersonAdd";
-import SearchIcon from "@mui/icons-material/Search";
-import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-import CloseIcon from "@mui/icons-material/Close";
+import { 
+  Home,
+  Mail,
+  Info,
+  UserPlus,
+  Search,
+  UserCircle,
+  X
+} from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 interface SidebarProps {
@@ -37,10 +39,10 @@ export const Sidebar: React.FC<SidebarProps> = ({
   const theme = useTheme();
 
   const headerLinks = [
-    { id: 1, name: "Home", route: "/", icon: <HomeIcon /> },
-    { id: 2, name: "Contact", route: "/contact", icon: <ContactMailIcon /> },
-    { id: 3, name: "About", route: "/about", icon: <InfoIcon /> },
-    { id: 4, name: "SignUp", route: "/signup", icon: <PersonAddIcon /> },
+    { id: 1, name: "Home", route: "/", icon: <Home /> },
+    { id: 2, name: "Contact", route: "/contact", icon: <Mail /> },
+    { id: 3, name: "About", route: "/about", icon: <Info /> },
+    { id: 4, name: "SignUp", route: "/signup", icon: <UserPlus /> },
   ];
 
   const containerVariants = {
@@ -155,7 +157,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
                   color: theme.palette.text.secondary,
                 }}
               >
-                <CloseIcon />
+                <X />
               </motion.button>
             </MotionBox>
 
@@ -231,7 +233,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
                     minWidth: 40,
                   }}
                 >
-                  <SearchIcon />
+                  <Search />
                 </ListItemIcon>
                 <ListItemText
                   primary="Search"
@@ -267,7 +269,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
                       minWidth: 40,
                     }}
                   >
-                    <AccountCircleIcon />
+                    <UserCircle />
                   </ListItemIcon>
                   <ListItemText
                     primary="Sign In"

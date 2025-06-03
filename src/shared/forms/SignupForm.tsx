@@ -7,8 +7,7 @@ import { signupUser } from "../../store/auth.slice";
 import type { AppDispatch } from "../../store";
 import { useNotification } from "../../context/NotificationContext";
 import { motion } from "framer-motion";
-import VisibilityIcon from "@mui/icons-material/Visibility";
-import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
+import { Eye, EyeOff } from "lucide-react";
 
 const MotionTextField = motion(TextField);
 const MotionButton = motion(Button);
@@ -94,7 +93,7 @@ const SignupFormComponent: React.FC = () => {
                 onClick={handleClickShowPassword}
                 edge="end"
               >
-                {showPassword ? <VisibilityOffIcon /> : <VisibilityIcon />}
+                {showPassword ? <EyeOff /> : <Eye />}
               </IconButton>
             </InputAdornment>
           ),

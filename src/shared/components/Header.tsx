@@ -9,16 +9,18 @@ import {
   Tooltip,
   Badge,
 } from "@mui/material";
-import HelpIcon from '@mui/icons-material/Help';
-import DarkModeIcon from "@mui/icons-material/DarkMode";
-import LightModeIcon from "@mui/icons-material/LightMode";
-import SearchIcon from "@mui/icons-material/Search";
-import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-import MenuIcon from "@mui/icons-material/Menu";
-import HomeIcon from "@mui/icons-material/Home";
-import InfoIcon from "@mui/icons-material/Info";
-import PersonAddIcon from "@mui/icons-material/PersonAdd";
-import NotificationsIcon from "@mui/icons-material/Notifications";
+import { 
+  HelpCircle,
+  Moon,
+  Sun,
+  Search,
+  UserCircle,
+  Menu,
+  Home,
+  Info,
+  UserPlus,
+  Bell
+} from "lucide-react";
 import { Sidebar } from "./Sidebar";
 import { motion } from "framer-motion";
 
@@ -41,10 +43,10 @@ export const Header: React.FC<HeaderProps> = ({
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   const headerLinks = [
-    { id: 1, name: "Home", route: "/", icon: <HomeIcon /> },
-    { id: 2, name: "Contact", route: "/contact", icon: <HelpIcon /> },
-    { id: 3, name: "About", route: "/about", icon: <InfoIcon /> },
-    { id: 4, name: "SignUp", route: "/signup", icon: <PersonAddIcon /> },
+    { id: 1, name: "Home", route: "/", icon: <Home /> },
+    { id: 2, name: "Contact", route: "/contact", icon: <HelpCircle /> },
+    { id: 3, name: "About", route: "/about", icon: <Info /> },
+    { id: 4, name: "SignUp", route: "/signup", icon: <UserPlus /> },
   ];
 
   const toggleSidebar = () => {
@@ -193,9 +195,9 @@ export const Header: React.FC<HeaderProps> = ({
                   }}
                 >
                   {currentMode === "dark" ? (
-                    <DarkModeIcon />
+                    <Moon />
                   ) : (
-                    <LightModeIcon />
+                    <Sun />
                   )}
                 </MotionIconButton>
               </Tooltip>
@@ -215,7 +217,7 @@ export const Header: React.FC<HeaderProps> = ({
                     },
                   }}
                 >
-                  <SearchIcon />
+                  <Search />
                 </MotionIconButton>
               </Tooltip>
 
@@ -237,7 +239,7 @@ export const Header: React.FC<HeaderProps> = ({
                       }}
                     >
                       <Badge badgeContent={3} color="error">
-                        <NotificationsIcon />
+                        <Bell />
                       </Badge>
                     </MotionIconButton>
                   </Tooltip>
@@ -282,7 +284,7 @@ export const Header: React.FC<HeaderProps> = ({
                       },
                     }}
                   >
-                    <AccountCircleIcon />
+                    <UserCircle />
                   </MotionIconButton>
                 </Tooltip>
               )}
@@ -310,7 +312,7 @@ export const Header: React.FC<HeaderProps> = ({
                     },
                   }}
                 >
-                  <MenuIcon />
+                  <Menu />
                 </MotionIconButton>
               </Tooltip>
             </MotionBox>
