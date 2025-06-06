@@ -2,19 +2,22 @@ import React, { useState } from "react";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { TextField, Button, IconButton, InputAdornment } from "@mui/material";
 import type { LoginForm } from "../models/Auth.model";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 // import type { AppDispatch } from "../../store";
 import { useNotification } from "../../context/NotificationContext";
 import { motion } from "framer-motion";
 import { Eye, EyeOff } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { AppDispatch } from "@/store";
+import { loginUser } from "@/store/auth.slice";
 
 const MotionTextField = motion(TextField);
 const MotionButton = motion(Button);
 
 const LoginFormComponent: React.FC = () => {
-  // const dispatch = useDispatch<AppDispatch>();
+  const dispatch = useDispatch<AppDispatch>();
   const navigation = useNavigate();
+  // const isLoggedIn = useSelector((state: RootState) => state.auth.isLoggedIn);
   const { loading, user, token, error } = useSelector(
     (state: any) => state.auth
   );
@@ -37,11 +40,13 @@ const LoginFormComponent: React.FC = () => {
   }, [error, user, token, showNotification]);
 
   const onSubmit: SubmitHandler<LoginForm> = (data) => {
-    showNotification("Backend Not Available!", "info");
+    // showNotification("Backend Not Available!", "info");
     console.log(data);
 
-    navigation("/");
-    // dispatch(loginUser(data));
+    dispatch(loginUser(data));
+    // if (isLoggedIn) {
+      navigation("/");
+    // }
   };
 
   const handleClickShowPassword = () => {

@@ -9,6 +9,7 @@ export interface AuthState {
   user: User | null;
   token: string | null;
   loading: boolean;
+  isLoggedIn: boolean;
   error: string | null;
 }
 

@@ -1,8 +1,28 @@
-import type { AuthResponse, AuthState, LoginPayload, SignupPayload } from "../shared/models/Auth.model";
-import { createSlice, createAsyncThunk, type PayloadAction } from "@reduxjs/toolkit";
+import type {
+  AuthResponse,
+  AuthState,
+  LoginPayload,
+  SignupPayload,
+} from "../shared/models/Auth.model";
+import {
+  createSlice,
+  createAsyncThunk,
+  type PayloadAction,
+} from "@reduxjs/toolkit";
 import axios, { AxiosError } from "axios";
 
 const API_URL = import.meta.env.VITE_API_BASE_URL;
+
+// Check for existing token in localStorage
+const token = localStorage.getItem("token");
+
+const initialState: AuthState = {
+  user: null,
+  token: token,
+  isLoggedIn: !!token, // Set isLoggedIn based on token presence
+  loading: false,
+  error: null,
+};
 
 export const loginUser = createAsyncThunk<
   AuthResponse,
@@ -14,15 +34,15 @@ export const loginUser = createAsyncThunk<
       `${API_URL}/auth/signin`,
       userData
     );
-    console.log('Login Response:', response.data);
+    console.log("Login Response:", response.data);
     if (!response.data.user) {
-      console.error('User data is missing from response:', response.data);
+      console.error("User data is missing from response:", response.data);
       return thunkAPI.rejectWithValue("Invalid response from server");
     }
     return response.data;
   } catch (err) {
     const error = err as AxiosError<{ message: string }>;
-    console.error('Login Error:', error.response?.data);
+    console.error("Login Error:", error.response?.data);
     return thunkAPI.rejectWithValue(
       error.response?.data?.message || "Login failed"
     );
@@ -51,13 +71,6 @@ export const signupUser = createAsyncThunk<
   }
 });
 
-const initialState: AuthState = {
-  user: null,
-  token: null,
-  loading: false,
-  error: null,
-};
-
 const authSlice = createSlice({
   name: "auth",
   initialState,
@@ -65,7 +78,13 @@ const authSlice = createSlice({
     logout: (state) => {
       state.user = null;
       state.token = null;
+      state.isLoggedIn = false;
       localStorage.removeItem("token");
+    },
+    checkAuth: (state) => {
+      const token = localStorage.getItem("token");
+      state.token = token;
+      state.isLoggedIn = !!token;
     },
   },
   extraReducers: (builder) => {
@@ -77,17 +96,21 @@ const authSlice = createSlice({
       .addCase(
         loginUser.fulfilled,
         (state, action: PayloadAction<AuthResponse>) => {
-          console.log('Reducer received:', action.payload);
+          console.log("Reducer received:", action.payload);
           state.loading = false;
           state.user = action.payload.user;
+          state.isLoggedIn = true;
           state.token = action.payload.token;
-          console.log('Updated state:', state);
+          console.log("Updated state:", state);
           localStorage.setItem("token", action.payload.token);
         }
       )
       .addCase(loginUser.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload || "Login failed";
+        state.isLoggedIn = false;
+        state.token = null;
+        localStorage.removeItem("token");
       })
 
       .addCase(signupUser.pending, (state) => {
@@ -99,6 +122,7 @@ const authSlice = createSlice({
         (state, action: PayloadAction<AuthResponse>) => {
           state.loading = false;
           state.user = action.payload.user;
+          state.isLoggedIn = true;
           state.token = action.payload.token;
           localStorage.setItem("token", action.payload.token);
         }
@@ -106,9 +130,12 @@ const authSlice = createSlice({
       .addCase(signupUser.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload || "Signup failed";
+        state.isLoggedIn = false;
+        state.token = null;
+        localStorage.removeItem("token");
       });
   },
 });
 
-export const { logout } = authSlice.actions;
+export const { logout, checkAuth } = authSlice.actions;
 export default authSlice.reducer;

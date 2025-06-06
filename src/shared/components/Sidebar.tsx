@@ -2,50 +2,60 @@ import React from "react";
 import {
   Drawer,
   List,
+  ListItemButton,
   ListItemIcon,
   ListItemText,
-  Divider,
-  ListItemButton,
-  useTheme,
+  IconButton,
   Box,
-  Typography,
   Avatar,
+  Typography,
+  Divider,
+  Badge,
 } from "@mui/material";
-import { 
+import {
   Home,
-  Mail,
+  HelpCircle,
   Info,
-  UserPlus,
-  Search,
   UserCircle,
-  X
+  X,
+  Bell,
+  LogOut,
 } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
+
+const MotionBox = motion(Box);
+const MotionListItemButton = motion(ListItemButton);
+const MotionIconButton = motion(IconButton);
 
 interface SidebarProps {
   open: boolean;
   onClose: () => void;
-  isLoggedIn?: boolean;
+  isLoggedIn: boolean;
+  onLogout: () => void;
 }
-
-const MotionBox = motion(Box);
-const MotionListItemButton = motion(ListItemButton);
 
 export const Sidebar: React.FC<SidebarProps> = ({
   open,
   onClose,
-  isLoggedIn = false,
+  isLoggedIn,
+  onLogout,
 }) => {
-  const theme = useTheme();
+  const navigate = useNavigate();
 
-  const headerLinks = [
+  const menuItems = [
     { id: 1, name: "Home", route: "/", icon: <Home /> },
-    { id: 2, name: "Contact", route: "/contact", icon: <Mail /> },
+    { id: 2, name: "Contact", route: "/contact", icon: <HelpCircle /> },
     { id: 3, name: "About", route: "/about", icon: <Info /> },
-    { id: 4, name: "SignUp", route: "/signup", icon: <UserPlus /> },
+    { id: 4, name: isLoggedIn ? "Account" : "SignIn", route: isLoggedIn ? "/account" : "/signin", icon: <UserCircle /> },
   ];
 
-  const containerVariants = {
+  const handleNavigation = (route: string) => {
+    navigate(route);
+    onClose();
+  };
+
+  const drawerVariants = {
     hidden: { x: "100%" },
     visible: { 
       x: 0,
@@ -65,8 +75,8 @@ export const Sidebar: React.FC<SidebarProps> = ({
     }
   };
 
-  const itemVariants = {
-    hidden: { opacity: 0, x: 20 },
+  const menuItemVariants = {
+    hidden: { opacity: 0, x: 50 },
     visible: (i: number) => ({
       opacity: 1,
       x: 0,
@@ -86,260 +96,154 @@ export const Sidebar: React.FC<SidebarProps> = ({
           anchor="right"
           open={open}
           onClose={onClose}
-          className="md:hidden"
           PaperProps={{
-            style: {
-              backgroundColor: theme.palette.background.paper,
-              width: 320,
-              borderLeft: `1px solid ${theme.palette.divider}`,
+            sx: {
+              width: "100%",
+              maxWidth: 300,
+              bgcolor: "background.paper",
             },
+            component: motion.div,
+            variants: drawerVariants,
+            initial: "hidden",
+            animate: "visible",
+            exit: "exit"
           }}
         >
-          <MotionBox
-            sx={{
-              display: 'flex',
-              flexDirection: 'column',
-              height: '100%',
-              background: `linear-gradient(180deg, ${theme.palette.background.paper} 0%, ${theme.palette.background.default} 100%)`,
-            }}
-            variants={containerVariants}
-            initial="hidden"
-            animate="visible"
-            exit="exit"
-          >
-            {/* Header Section */}
+          <Box sx={{ p: 2 }}>
             <MotionBox
               sx={{
-                p: 2,
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'space-between',
-                borderBottom: `1px solid ${theme.palette.divider}`,
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+                mb: 2,
               }}
               initial={{ opacity: 0, y: -20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2 }}
             >
-              <MotionBox 
-                sx={{ display: 'flex', alignItems: 'center', gap: 2 }}
-                whileHover={{ scale: 1.05 }}
-                transition={{ type: "spring", stiffness: 400, damping: 10 }}
-              >
-                <img
-                  src="/src/assets/MallMate-Icon-Transperant.png"
-                  alt="logo"
-                  className="w-12 h-12"
-                />
-                <Typography
-                  variant="h6"
-                  sx={{
-                    color: theme.palette.text.primary,
-                    fontWeight: 600,
-                    fontFamily: 'Manrope',
-                  }}
-                >
-                  MallMate
-                </Typography>
-              </MotionBox>
-              <motion.button
-                onClick={onClose}
-                whileHover={{ rotate: 90, scale: 1.1 }}
+              <Typography variant="h6" sx={{ fontWeight: 600 }}>
+                Menu
+              </Typography>
+              <MotionIconButton 
+                onClick={onClose} 
+                size="small"
+                whileHover={{ scale: 1.2, rotate: 90 }}
                 whileTap={{ scale: 0.9 }}
-                transition={{ type: "spring", stiffness: 400, damping: 10 }}
-                style={{
-                  background: 'none',
-                  border: 'none',
-                  cursor: 'pointer',
-                  padding: '8px',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  color: theme.palette.text.secondary,
-                }}
               >
                 <X />
-              </motion.button>
+              </MotionIconButton>
             </MotionBox>
 
-            {/* Navigation Links */}
-            <List sx={{ px: 2, py: 1 }}>
-              {headerLinks.map((item, index) => (
-                <MotionListItemButton
-                  key={item.id}
-                  onClick={() => {
-                    window.location.href = item.route;
-                    onClose();
-                  }}
-                  custom={index}
-                  variants={itemVariants}
-                  initial="hidden"
-                  animate="visible"
-                  whileHover={{ 
-                    scale: 1.02,
-                    backgroundColor: theme.palette.action.hover,
-                    x: 10,
-                  }}
-                  sx={{
-                    borderRadius: 2,
-                    mb: 1,
-                    color: theme.palette.text.primary,
-                    transition: 'all 0.2s ease-in-out',
-                  }}
-                >
-                  <ListItemIcon
-                    sx={{
-                      color: theme.palette.primary.main,
-                      minWidth: 40,
-                    }}
-                  >
-                    {item.icon}
-                  </ListItemIcon>
-                  <ListItemText
-                    primary={item.name}
-                    primaryTypographyProps={{
-                      fontFamily: 'Manrope',
-                      fontWeight: 500,
-                    }}
-                  />
-                </MotionListItemButton>
-              ))}
-            </List>
-
-            <Divider sx={{ my: 2 }} />
-
-            {/* Bottom Actions */}
-            <List sx={{ px: 2 }}>
-              <MotionListItemButton
-                onClick={onClose}
-                variants={itemVariants}
-                custom={headerLinks.length}
-                initial="hidden"
-                animate="visible"
-                whileHover={{ 
-                  scale: 1.02,
-                  backgroundColor: theme.palette.action.hover,
-                  x: 10,
-                }}
-                sx={{
-                  borderRadius: 2,
-                  mb: 1,
-                  color: theme.palette.text.primary,
-                  transition: 'all 0.2s ease-in-out',
-                }}
-              >
-                <ListItemIcon
-                  sx={{
-                    color: theme.palette.primary.main,
-                    minWidth: 40,
-                  }}
-                >
-                  <Search />
-                </ListItemIcon>
-                <ListItemText
-                  primary="Search"
-                  primaryTypographyProps={{
-                    fontFamily: 'Manrope',
-                    fontWeight: 500,
-                  }}
-                />
-              </MotionListItemButton>
-
-              {!isLoggedIn && (
-                <MotionListItemButton
-                  onClick={onClose}
-                  variants={itemVariants}
-                  custom={headerLinks.length + 1}
-                  initial="hidden"
-                  animate="visible"
-                  whileHover={{ 
-                    scale: 1.02,
-                    backgroundColor: theme.palette.action.hover,
-                    x: 10,
-                  }}
-                  sx={{
-                    borderRadius: 2,
-                    mb: 1,
-                    color: theme.palette.text.primary,
-                    transition: 'all 0.2s ease-in-out',
-                  }}
-                >
-                  <ListItemIcon
-                    sx={{
-                      color: theme.palette.primary.main,
-                      minWidth: 40,
-                    }}
-                  >
-                    <UserCircle />
-                  </ListItemIcon>
-                  <ListItemText
-                    primary="Sign In"
-                    primaryTypographyProps={{
-                      fontFamily: 'Manrope',
-                      fontWeight: 500,
-                    }}
-                  />
-                </MotionListItemButton>
-              )}
-            </List>
-
-            {/* User Profile Section */}
             {isLoggedIn && (
               <MotionBox
-                sx={{
-                  mt: 'auto',
-                  p: 2,
-                  borderTop: `1px solid ${theme.palette.divider}`,
-                }}
-                initial={{ opacity: 0, y: 20 }}
+                initial={{ opacity: 0, y: -20 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.4 }}
+                transition={{ delay: 0.3 }}
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 2,
+                  mb: 2,
+                  p: 2,
+                  borderRadius: 2,
+                  bgcolor: "action.hover",
+                }}
               >
-                <MotionBox
+                <Avatar
                   sx={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: 2,
-                    p: 1,
-                    borderRadius: 2,
-                    '&:hover': {
-                      backgroundColor: theme.palette.action.hover,
-                    },
-                    transition: 'all 0.2s ease-in-out',
+                    width: 40,
+                    height: 40,
+                    bgcolor: "primary.main",
                   }}
-                  whileHover={{ scale: 1.02, x: 10 }}
-                >
-                  <Avatar
-                    sx={{
-                      width: 40,
-                      height: 40,
-                      bgcolor: theme.palette.primary.main,
-                    }}
-                  />
-                  <Box>
-                    <Typography
-                      variant="subtitle1"
-                      sx={{
-                        fontFamily: 'Manrope',
-                        fontWeight: 600,
-                        color: theme.palette.text.primary,
-                      }}
-                    >
-                      John Doe
-                    </Typography>
-                    <Typography
-                      variant="body2"
-                      sx={{
-                        color: theme.palette.text.secondary,
-                        fontFamily: 'Manrope',
-                      }}
-                    >
-                      john.doe@example.com
-                    </Typography>
-                  </Box>
-                </MotionBox>
+                />
+                <Box>
+                  <Typography variant="subtitle1" sx={{ fontWeight: 500 }}>
+                    User Name
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary">
+                    user@email.com
+                  </Typography>
+                </Box>
               </MotionBox>
             )}
-          </MotionBox>
+
+            <List>
+              {menuItems.map((item, index) => (
+                <MotionListItemButton
+                  key={item.id}
+                  onClick={() => handleNavigation(item.route)}
+                  custom={index}
+                  variants={menuItemVariants}
+                  initial="hidden"
+                  animate="visible"
+                  whileHover={{ scale: 1.02, x: 10 }}
+                  whileTap={{ scale: 0.98 }}
+                  sx={{
+                    borderRadius: 2,
+                    mb: 0.5,
+                    "&:hover": {
+                      bgcolor: "action.hover",
+                    },
+                  }}
+                >
+                  <ListItemIcon>{item.icon}</ListItemIcon>
+                  <ListItemText primary={item.name} />
+                </MotionListItemButton>
+              ))}
+
+              {isLoggedIn && (
+                <>
+                  <Divider sx={{ my: 2 }} />
+                  <MotionListItemButton
+                    onClick={() => handleNavigation("/notifications")}
+                    custom={menuItems.length}
+                    variants={menuItemVariants}
+                    initial="hidden"
+                    animate="visible"
+                    whileHover={{ scale: 1.02, x: 10 }}
+                    whileTap={{ scale: 0.98 }}
+                    sx={{
+                      borderRadius: 2,
+                      mb: 0.5,
+                      "&:hover": {
+                        bgcolor: "action.hover",
+                      },
+                    }}
+                  >
+                    <ListItemIcon>
+                      <Badge badgeContent={3} color="error">
+                        <Bell />
+                      </Badge>
+                    </ListItemIcon>
+                    <ListItemText primary="Notifications" />
+                  </MotionListItemButton>
+                  <MotionListItemButton
+                    onClick={onLogout}
+                    custom={menuItems.length + 1}
+                    variants={menuItemVariants}
+                    initial="hidden"
+                    animate="visible"
+                    whileHover={{ scale: 1.02, x: 10 }}
+                    whileTap={{ scale: 0.98 }}
+                    sx={{
+                      borderRadius: 2,
+                      mb: 0.5,
+                      color: "error.main",
+                      "&:hover": {
+                        bgcolor: "error.light",
+                        color: "error.contrastText",
+                      },
+                    }}
+                  >
+                    <ListItemIcon sx={{ color: "inherit" }}>
+                      <LogOut />
+                    </ListItemIcon>
+                    <ListItemText primary="Logout" />
+                  </MotionListItemButton>
+                </>
+              )}
+            </List>
+          </Box>
         </Drawer>
       )}
     </AnimatePresence>

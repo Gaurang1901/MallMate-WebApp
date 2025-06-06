@@ -1,76 +1,37 @@
 import React from 'react'
-import {
-  NavigationMenu,
-  NavigationMenuContent,
-  NavigationMenuItem,
-  NavigationMenuLink,
-  NavigationMenuList,
-  NavigationMenuTrigger,
-} from "../../../components/ui/navigation-menu"
-import { cn } from "../../../lib/utils"
-import {  Utensils, Shirt, BookOpen, Gamepad2, Heart, Gift } from 'lucide-react'
 import { useTheme } from '@mui/material/styles'
-import { Box } from '@mui/material'
+import { Box, Button } from '@mui/material'
 
 const categories = [
   {
     title: "Fashion",
-    icon: <Shirt className="h-4 w-4" />,
-    items: [
-      { name: "Men's Clothing", href: "/category/mens-clothing" },
-      { name: "Women's Clothing", href: "/category/womens-clothing" },
-      { name: "Kids' Fashion", href: "/category/kids-fashion" },
-      { name: "Footwear", href: "/category/footwear" },
-      { name: "Accessories", href: "/category/accessories" },
-    ],
+    href: "/category/fashion",
+    image: "https://images.unsplash.com/photo-1445205170230-053b83016050?q=80&w=1000"
   },
   {
     title: "Food & Dining",
-    icon: <Utensils className="h-4 w-4" />,
-    items: [
-      { name: "Restaurants", href: "/category/restaurants" },
-      { name: "Cafes", href: "/category/cafes" },
-      { name: "Food Courts", href: "/category/food-courts" },
-      { name: "Beverages", href: "/category/beverages" },
-    ],
+    href: "/category/food-dining",
+    image: "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?q=80&w=1000"
   },
   {
     title: "Entertainment",
-    icon: <Gamepad2 className="h-4 w-4" />,
-    items: [
-      { name: "Cinema", href: "/category/cinema" },
-      { name: "Gaming Zone", href: "/category/gaming" },
-      { name: "Bowling", href: "/category/bowling" },
-      { name: "VR Experience", href: "/category/vr" },
-    ],
+    href: "/category/entertainment",
+    image: "https://images.unsplash.com/photo-1514525253161-7a46d19cd819?q=80&w=1000"
   },
   {
     title: "Books & Stationery",
-    icon: <BookOpen className="h-4 w-4" />,
-    items: [
-      { name: "Books", href: "/category/books" },
-      { name: "Stationery", href: "/category/stationery" },
-      { name: "Art Supplies", href: "/category/art-supplies" },
-    ],
+    href: "/category/books-stationery",
+    image: "https://images.unsplash.com/photo-1521587760476-6c12a4b040da?q=80&w=1000"
   },
   {
     title: "Health & Beauty",
-    icon: <Heart className="h-4 w-4" />,
-    items: [
-      { name: "Cosmetics", href: "/category/cosmetics" },
-      { name: "Skincare", href: "/category/skincare" },
-      { name: "Fragrances", href: "/category/fragrances" },
-      { name: "Wellness", href: "/category/wellness" },
-    ],
+    href: "/category/health-beauty",
+    image: "https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?q=80&w=1000"
   },
   {
     title: "Gifts & Souvenirs",
-    icon: <Gift className="h-4 w-4" />,
-    items: [
-      { name: "Gift Shops", href: "/category/gift-shops" },
-      { name: "Souvenirs", href: "/category/souvenirs" },
-      { name: "Specialty Items", href: "/category/specialty" },
-    ],
+    href: "/category/gifts-souvenirs",
+    image: "https://images.unsplash.com/photo-1513885535751-8b9238bd345a?q=80&w=1000"
   },
 ]
 
@@ -80,104 +41,78 @@ const CategoriesMenu: React.FC = () => {
   return (
     <Box 
       className="w-full max-w-7xl mx-auto px-4"
-      sx={{
-        '& .navigation-menu': {
-          backgroundColor: theme.palette.background.paper,
-          borderRadius: '8px',
-          boxShadow: theme.shadows[1],
-        },
-        '& .navigation-menu-trigger': {
-          backgroundColor: theme.palette.background.paper,
-          color: theme.palette.text.primary,
-          border: `1px solid ${theme.palette.divider}`,
-          '&:hover': {
-            backgroundColor: theme.palette.action.hover,
-          },
-        },
-        '& .navigation-menu-content': {
-          backgroundColor: theme.palette.background.paper,
-          border: `1px solid ${theme.palette.divider}`,
-          boxShadow: theme.shadows[4],
-        },
-        '& .navigation-menu-link': {
-          color: theme.palette.text.primary,
-          '&:hover': {
-            backgroundColor: theme.palette.action.hover,
-            color: theme.palette.primary.main,
-          },
-        },
-      }}
     >
-      <NavigationMenu viewport={false}>
-        <NavigationMenuList className="flex flex-wrap justify-center gap-2">
-          {categories.map((category) => (
-            <NavigationMenuItem key={category.title}>
-              <NavigationMenuTrigger 
-                className="h-9 px-4 py-2"
-                style={{
-                  backgroundColor: theme.palette.background.paper,
-                  color: theme.palette.text.primary,
-                  border: `1px solid ${theme.palette.divider}`,
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {categories.map((category) => (
+          <Box
+            key={category.title}
+            className="relative h-64 rounded-xl overflow-hidden group"
+            sx={{
+              boxShadow: theme.shadows[2],
+              '&:hover': {
+                boxShadow: theme.shadows[8],
+                transform: 'translateY(-4px)',
+                transition: 'all 0.3s ease-in-out',
+              },
+            }}
+          >
+            {/* Background Image */}
+            <Box
+              component="img"
+              src={category.image}
+              alt={category.title}
+              className="absolute inset-0 w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
+            />
+            
+            {/* Overlay */}
+            <Box
+              className="absolute inset-0"
+              sx={{
+                background: theme.palette.mode === 'dark' 
+                  ? 'linear-gradient(to top, rgba(0,0,0,0.8), rgba(0,0,0,0.4))'
+                  : 'linear-gradient(to top, rgba(0,0,0,0.7), rgba(0,0,0,0.3))'
+              }}
+            />
+
+            {/* Content */}
+            <Box
+              className="absolute inset-0 flex flex-col items-center justify-center p-6"
+              sx={{
+                color: theme.palette.mode === 'dark' 
+                  ? theme.palette.primary.light 
+                  : theme.palette.primary.contrastText
+              }}
+            >
+              <h3 className="text-2xl font-bold mb-4 text-center">
+                {category.title}
+              </h3>
+
+              <Button
+                component="a"
+                href={category.href}
+                variant="contained"
+                className="mt-2"
+                sx={{
+                  backgroundColor: theme.palette.mode === 'dark' 
+                    ? theme.palette.primary.dark 
+                    : theme.palette.primary.light,
+                  color: theme.palette.mode === 'dark'
+                    ? theme.palette.primary.light
+                    : theme.palette.primary.contrastText,
+                  '&:hover': {
+                    backgroundColor: theme.palette.mode === 'dark'
+                      ? theme.palette.primary.main
+                      : theme.palette.primary.main,
+                    color: theme.palette.primary.contrastText,
+                  },
                 }}
               >
-                <div className="flex items-center gap-2">
-                  <Box 
-                    component="span" 
-                    sx={{ 
-                      color: theme.palette.primary.main,
-                      display: 'flex',
-                      alignItems: 'center'
-                    }}
-                  >
-                    {category.icon}
-                  </Box>
-                  <span>{category.title}</span>
-                </div>
-              </NavigationMenuTrigger>
-              <NavigationMenuContent>
-                <ul 
-                  className="grid w-[400px] gap-3 p-4 md:w-[400px] md:grid-cols-2 lg:w-[400px]"
-                  style={{
-                    backgroundColor: theme.palette.background.paper,
-                    borderRadius: '8px',
-                  }}
-                >
-                  {category.items.map((item) => (
-                    <li key={item.name}>
-                      <NavigationMenuLink asChild>
-                        <Box
-                          component="a"
-                          href={item.href}
-                          className={cn(
-                            "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors",
-                            "flex items-center gap-2"
-                          )}
-                          sx={{
-                            color: theme.palette.text.primary,
-                            '&:hover': {
-                              backgroundColor: theme.palette.action.hover,
-                              color: theme.palette.primary.main,
-                            },
-                          }}
-                        >
-                          <div 
-                            className="text-sm font-medium leading-none"
-                            style={{
-                              color: theme.palette.text.primary,
-                            }}
-                          >
-                            {item.name}
-                          </div>
-                        </Box>
-                      </NavigationMenuLink>
-                    </li>
-                  ))}
-                </ul>
-              </NavigationMenuContent>
-            </NavigationMenuItem>
-          ))}
-        </NavigationMenuList>
-      </NavigationMenu>
+                Explore
+              </Button>
+            </Box>
+          </Box>
+        ))}
+      </div>
     </Box>
   )
 }

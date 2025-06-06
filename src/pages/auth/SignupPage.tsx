@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { SignupForm } from "../../shared/forms/SignupForm";
 import { motion } from "framer-motion";
-import bg from "../../assets/Login-Hero-Bg.png";
+import bg from "../../assets/Login-bg1.png";
 import icon from "../../assets/MallMate-Icon-Transperant.png";
 
 const MotionDiv = motion.div;
@@ -64,10 +64,10 @@ const SignupPage = () => {
               animate={{ opacity: 1 }}
               transition={{ delay: 0.6 }}
             >
-              <p className="text-primary text-sm">
+              <p className="text-foreground text-sm">
                 Already have an account?{" "}
                 <Link
-                  to="/login"
+                  to="/signin"
                   className="underline text-blue-200 hover:text-blue-400 transition-colors duration-200"
                 >
                   Log In

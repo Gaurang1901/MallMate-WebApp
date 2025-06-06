@@ -18,12 +18,15 @@ import {
   Menu,
   Home,
   Info,
-  UserPlus,
-  Bell
+  Bell,
+  LogOut
 } from "lucide-react";
 import { Sidebar } from "./Sidebar";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { RootState } from "../../store/store";
+import { logout } from "../../store/auth.slice";
 
 const MotionBox = motion(Box);
 const MotionButton = motion(Button);
@@ -32,29 +35,41 @@ const MotionIconButton = motion(IconButton);
 interface HeaderProps {
   onThemeToggle: () => void;
   currentMode: "light" | "dark";
-  isLoggedIn?: boolean;
 }
 
 export const Header: React.FC<HeaderProps> = ({
   onThemeToggle,
   currentMode,
-  isLoggedIn = false,
 }) => {
   const theme = useTheme();
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const isLoggedIn = useSelector((state: RootState) => state.auth.isLoggedIn);
+
+  const handleLogout = () => {
+    dispatch(logout());
+    navigate('/');
+  };
 
   const headerLinks = [
-    { id: 1, name: "Home", route: "/home", icon: <Home /> },
+    { id: 1, name: "Home", route: "/", icon: <Home /> },
     { id: 2, name: "Contact", route: "/contact", icon: <HelpCircle /> },
     { id: 3, name: "About", route: "/about", icon: <Info /> },
-    { id: 4, name: "SignUp", route: "/signup", icon: <UserPlus /> },
+    { id: 4, name: isLoggedIn ? "Logout" : "SignIn", route: isLoggedIn ? "/" : "/signin", icon: isLoggedIn ? <LogOut /> : <UserCircle />, onClick: isLoggedIn ? handleLogout : undefined },
   ];
 
   const toggleSidebar = () => {
     setSidebarOpen(!sidebarOpen);
   };
 
-  const navigate = useNavigate();
+  const handleProfileClick = () => {
+    if (isLoggedIn) {
+      navigate('/account');
+    } else {
+      navigate('/signin');
+    }
+  };
 
   const containerVariants = {
     hidden: { opacity: 0, y: -50 },
@@ -139,7 +154,7 @@ export const Header: React.FC<HeaderProps> = ({
               {headerLinks.map((item) => (
                 <MotionButton
                   key={item.id}
-                  onClick={() => navigate(item.route)}
+                  onClick={item.onClick || (() => navigate(item.route))}
                   startIcon={item.icon}
                   variants={itemVariants}
                   whileHover={{
@@ -149,13 +164,17 @@ export const Header: React.FC<HeaderProps> = ({
                   }}
                   whileTap={{ scale: 0.95 }}
                   sx={{
-                    color: theme.palette.text.primary,
+                    color: item.name === "Logout" ? "error.main" : theme.palette.text.primary,
                     borderRadius: 2,
                     px: 2,
                     py: 1,
                     textTransform: "none",
                     fontFamily: "Manrope",
                     fontWeight: 500,
+                    "&:hover": {
+                      backgroundColor: item.name === "Logout" ? "error.light" : theme.palette.action.hover,
+                      color: item.name === "Logout" ? "error.contrastText" : theme.palette.text.primary,
+                    },
                   }}
                 >
                   {item.name}
@@ -197,11 +216,7 @@ export const Header: React.FC<HeaderProps> = ({
                     },
                   }}
                 >
-                  {currentMode === "dark" ? (
-                    <Moon />
-                  ) : (
-                    <Sun />
-                  )}
+                  {currentMode === "dark" ? <Moon /> : <Sun />}
                 </MotionIconButton>
               </Tooltip>
 
@@ -248,6 +263,7 @@ export const Header: React.FC<HeaderProps> = ({
                   </Tooltip>
                   <Tooltip title="Profile">
                     <MotionIconButton
+                      onClick={handleProfileClick}
                       whileHover={{
                         scale: 1.2,
                         y: -2,
@@ -270,10 +286,30 @@ export const Header: React.FC<HeaderProps> = ({
                       />
                     </MotionIconButton>
                   </Tooltip>
+                  <Tooltip title="Logout">
+                    <MotionIconButton
+                      onClick={handleLogout}
+                      whileHover={{
+                        scale: 1.2,
+                        y: -2,
+                      }}
+                      whileTap={{ scale: 0.9 }}
+                      sx={{
+                        color: theme.palette.text.primary,
+                        display: { xs: "none", md: "flex" },
+                        "&:hover": {
+                          backgroundColor: theme.palette.action.hover,
+                        },
+                      }}
+                    >
+                      <LogOut />
+                    </MotionIconButton>
+                  </Tooltip>
                 </>
               ) : (
                 <Tooltip title="Sign In">
                   <MotionIconButton
+                    onClick={handleProfileClick}
                     whileHover={{
                       scale: 1.2,
                       y: -2,
@@ -328,6 +364,7 @@ export const Header: React.FC<HeaderProps> = ({
         open={sidebarOpen}
         onClose={toggleSidebar}
         isLoggedIn={isLoggedIn}
+        onLogout={handleLogout}
       />
     </>
   );
