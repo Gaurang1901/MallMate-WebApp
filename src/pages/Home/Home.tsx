@@ -12,6 +12,7 @@ import bg3 from "../../assets/Shopping-Mall-Home-Bg-3.png";
 import bg4 from "../../assets/Shopping-Mall-Home-Bg-4.png";
 import bg5 from "../../assets/Shopping-Mall-Home-Bg-5.png";
 import Footer from "../../shared/components/Footer";
+import BrandsCarousel from "./components/BrandsCarousel";
 
 const backgrounds = [bg1, bg2, bg3, bg4, bg5];
 
@@ -116,6 +117,15 @@ const Home: React.FC = () => {
 
       {/* Product Carousel Section */}
       <ProductCarousel />
+
+      {/* Stats Section */}
+      <Box
+        component="section"
+        className="py-16"
+        sx={{ bgcolor: theme.palette.background.default }}
+      >
+        <BrandsCarousel/>
+      </Box>
 
       {/* Features Section */}
       <Box
