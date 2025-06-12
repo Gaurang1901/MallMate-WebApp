@@ -23,7 +23,7 @@ const SignupPage = () => {
         position: 'fixed'
       }}
     >
-      <div className="w-full h-full overflow-y-auto">
+      <div className="w-full h-full overflow-y-auto bg-black/50">
         <div className="min-h-screen flex items-center justify-center">
           <MotionDiv
             className="bg-white/10 backdrop-blur-md rounded-2xl shadow-xl p-10 w-max md:w-full max-w-md border border-white/30"

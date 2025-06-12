@@ -8,6 +8,9 @@ import {
   Button,
   Tooltip,
   Badge,
+  TextField,
+  InputAdornment,
+  IconButton as MuiIconButton,
 } from "@mui/material";
 import { 
   HelpCircle,
@@ -19,10 +22,12 @@ import {
   Home,
   Info,
   Bell,
-  LogOut
+  LogOut,
+  // Store,
+  X,
 } from "lucide-react";
 import { Sidebar } from "./Sidebar";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../../store/store";
@@ -43,6 +48,8 @@ export const Header: React.FC<HeaderProps> = ({
 }) => {
   const theme = useTheme();
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [showSearchBar, setShowSearchBar] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const isLoggedIn = useSelector((state: RootState) => state.auth.isLoggedIn);
@@ -54,9 +61,10 @@ export const Header: React.FC<HeaderProps> = ({
 
   const headerLinks = [
     { id: 1, name: "Home", route: "/", icon: <Home /> },
-    { id: 2, name: "Contact", route: "/contact", icon: <HelpCircle /> },
-    { id: 3, name: "About", route: "/about", icon: <Info /> },
-    { id: 4, name: isLoggedIn ? "Logout" : "SignIn", route: isLoggedIn ? "/" : "/signin", icon: isLoggedIn ? <LogOut /> : <UserCircle />, onClick: isLoggedIn ? handleLogout : undefined },
+    // { id: 2, name: "Shop All", route: "/shop", icon: <Store /> },
+    { id: 3, name: "Contact", route: "/contact", icon: <HelpCircle /> },
+    { id: 4, name: "About", route: "/about", icon: <Info /> },
+    { id: 5, name: isLoggedIn ? "Logout" : "SignIn", route: isLoggedIn ? "/" : "/signin", icon: isLoggedIn ? <LogOut /> : <UserCircle />, onClick: isLoggedIn ? handleLogout : undefined },
   ];
 
   const toggleSidebar = () => {
@@ -149,38 +157,95 @@ export const Header: React.FC<HeaderProps> = ({
               </Typography>
             </MotionBox>
 
-            {/* Desktop Navigation */}
-            <nav className="hidden md:flex items-center space-x-1">
-              {headerLinks.map((item) => (
-                <MotionButton
-                  key={item.id}
-                  onClick={item.onClick || (() => navigate(item.route))}
-                  startIcon={item.icon}
-                  variants={itemVariants}
-                  whileHover={{
-                    scale: 1.1,
-                    backgroundColor: theme.palette.action.hover,
-                    y: -2,
-                  }}
-                  whileTap={{ scale: 0.95 }}
-                  sx={{
-                    color: item.name === "Logout" ? "error.main" : theme.palette.text.primary,
-                    borderRadius: 2,
-                    px: 2,
-                    py: 1,
-                    textTransform: "none",
-                    fontFamily: "Manrope",
-                    fontWeight: 500,
-                    "&:hover": {
-                      backgroundColor: item.name === "Logout" ? "error.light" : theme.palette.action.hover,
-                      color: item.name === "Logout" ? "error.contrastText" : theme.palette.text.primary,
-                    },
-                  }}
+            <AnimatePresence mode="wait">
+              {!showSearchBar ? (
+                /* Desktop Navigation */
+                <nav
+                  className="hidden md:flex items-center space-x-1"
+                  key="main-nav"
                 >
-                  {item.name}
-                </MotionButton>
-              ))}
-            </nav>
+                  {headerLinks.map((item) => (
+                    <MotionButton
+                      key={item.id}
+                      onClick={item.onClick || (() => navigate(item.route))}
+                      startIcon={item.icon}
+                      variants={itemVariants}
+                      whileHover={{
+                        scale: 1.1,
+                        backgroundColor: theme.palette.action.hover,
+                        y: -2,
+                      }}
+                      whileTap={{ scale: 0.95 }}
+                      sx={{
+                        color: item.name === "Logout" ? "error.main" : theme.palette.text.primary,
+                        borderRadius: 2,
+                        px: 2,
+                        py: 1,
+                        textTransform: "none",
+                        fontFamily: "Manrope",
+                        fontWeight: 500,
+                        "&:hover": {
+                          backgroundColor: item.name === "Logout" ? "error.light" : theme.palette.action.hover,
+                          color: item.name === "Logout" ? "error.contrastText" : theme.palette.text.primary,
+                        },
+                      }}
+                    >
+                      {item.name}
+                    </MotionButton>
+                  ))}
+                </nav>
+              ) : (
+                /* Search Bar (conditionally rendered) */
+                <MotionBox
+                  sx={{
+                    flexGrow: 1,
+                    ml: { xs: 0, md: 2 },
+                    maxWidth: { xs: '100%', md: '50%' },
+                  }}
+                  initial={{ opacity: 0, scaleX: 0, originX: 0 }}
+                  animate={{ opacity: 1, scaleX: 1 }}
+                  exit={{ opacity: 0, scaleX: 0 }}
+                  transition={{ type: "spring", stiffness: 300, damping: 30, duration: 0.2 }}
+                  key="search-bar"
+                >
+                  <TextField
+                    fullWidth
+                    variant="outlined"
+                    placeholder="Search products..."
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    onBlur={() => setShowSearchBar(false)}
+                    onKeyPress={(e) => {
+                      if (e.key === 'Enter') {
+                        console.log('Searching for:', searchQuery);
+                        setShowSearchBar(false);
+                      }
+                    }}
+                    InputProps={{
+                      startAdornment: (
+                        <InputAdornment position="start">
+                          <Search size={20} />
+                        </InputAdornment>
+                      ),
+                      endAdornment: searchQuery && (
+                        <InputAdornment position="end">
+                          <MuiIconButton onClick={() => setSearchQuery('')}>
+                            <X size={20} />
+                          </MuiIconButton>
+                        </InputAdornment>
+                      ),
+                    }}
+                    sx={{
+                      '& .MuiOutlinedInput-root': {
+                        borderRadius: 2,
+                        pr: 1,
+                      },
+                    }}
+                    autoFocus
+                  />
+                </MotionBox>
+              )}
+            </AnimatePresence>
 
             {/* Right Section Icons */}
             <MotionBox
@@ -222,6 +287,7 @@ export const Header: React.FC<HeaderProps> = ({
 
               <Tooltip title="Search">
                 <MotionIconButton
+                  onClick={() => setShowSearchBar(!showSearchBar)}
                   whileHover={{
                     scale: 1.2,
                     y: -2,

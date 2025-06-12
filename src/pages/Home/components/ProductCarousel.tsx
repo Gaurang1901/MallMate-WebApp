@@ -10,6 +10,7 @@ import {
 } from "../../../components/ui/carousel";
 import { ShoppingCart } from 'lucide-react';
 import { cn } from "../../../lib/utils";
+import { useNavigate } from 'react-router-dom';
 
 // Sample product data - replace with your actual data
 const products = [
@@ -49,6 +50,7 @@ const ProductCarousel: React.FC = () => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
   const [api, setApi] = React.useState<any>();
+  const navigate = useNavigate();
 
   // Auto-scroll functionality
   useEffect(() => {
@@ -60,6 +62,10 @@ const ProductCarousel: React.FC = () => {
 
     return () => clearInterval(interval);
   }, [api]);
+
+  const handleProductClick = (productId: number) => {
+    navigate(`/product/${productId}`);
+  };
 
   return (
     <Box 
@@ -114,7 +120,12 @@ const ProductCarousel: React.FC = () => {
                   <Typography 
                     variant="h6" 
                     className="font-semibold mb-2"
-                    sx={{ color: theme.palette.text.primary }}
+                    sx={{ 
+                      color: theme.palette.text.primary, 
+                      cursor: 'pointer',
+                      '&:hover': { textDecoration: 'underline' }
+                    }}
+                    onClick={() => handleProductClick(product.id)}
                   >
                     {product.name}
                   </Typography>
@@ -129,13 +140,15 @@ const ProductCarousel: React.FC = () => {
                     variant="contained"
                     startIcon={<ShoppingCart />}
                     fullWidth
-                    sx={{
-                      bgcolor: theme.palette.primary.main,
-                      color: theme.palette.primary.contrastText,
-                      '&:hover': {
-                        bgcolor: theme.palette.primary.dark,
-                      },
-                    }}
+                    sx={
+                      {
+                        bgcolor: theme.palette.primary.main,
+                        color: theme.palette.primary.contrastText,
+                        '&:hover': {
+                          bgcolor: theme.palette.primary.dark,
+                        },
+                      }
+                    }
                   >
                     Add to Cart
                   </Button>

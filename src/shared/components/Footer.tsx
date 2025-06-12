@@ -55,9 +55,9 @@ const Footer: React.FC = () => {
                 Explore
               </Typography>
               <ul className="space-y-3 mt-2">
-                <li><a href="#" className="transition-colors hover:text-primary hover:bg-secondary p-1 rounded-sm font-medium">Shop All</a></li>
-                <li><a href="#" className="transition-colors hover:text-primary hover:bg-secondary p-1 rounded-sm font-medium">Clearance</a></li>
-                <li><a href="#" className="transition-colors hover:text-primary hover:bg-secondary p-1 rounded-sm font-medium">Apparel</a></li>
+                <li><a href="/shop" className="transition-colors hover:text-primary hover:bg-secondary p-1 rounded-sm font-medium">Shop All</a></li>
+                <li><a href="#" className="transition-colors hover:text-primary hover:bg-secondary p-1 rounded-sm font-medium">Categories</a></li>
+                <li><a href="/about" className="transition-colors hover:text-primary hover:bg-secondary p-1 rounded-sm font-medium">About</a></li>
               </ul>
             </Box>
           </motion.div>
@@ -89,7 +89,7 @@ const Footer: React.FC = () => {
             <Box className="p-0 md:p-2">
               <Typography variant="h6" className="font-bold mb-3 tracking-wide">Customer Service</Typography>
               <ul className="space-y-3 mt-2">
-                <li><a href="#" className="transition-colors hover:text-primary hover:bg-secondary p-1 rounded-sm font-medium">Contact Us</a></li>
+                <li><a href="/contact" className="transition-colors hover:text-primary hover:bg-secondary p-1 rounded-sm font-medium">Contact Us</a></li>
                 <li><a href="#" className="transition-colors hover:text-primary hover:bg-secondary p-1 rounded-sm font-medium">FAQ</a></li>
               </ul>
             </Box>

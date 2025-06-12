@@ -10,14 +10,18 @@ import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "./store";
 import Home from "./pages/Home/Home";
 import { checkAuth } from "./store/auth.slice";
+import About from "./pages/About/About";
+import Contact from "./pages/Contact/Contact";
+import Account from "./pages/Account/Account";
+import ProductView from "./pages/ProductView/ProductView";
+import ShopAll from "./pages/categories/ShopAll";
+import CategoryPage from "./pages/categories/CategoryPage";
 
 function App() {
   const [mode, setMode] = useState<"light" | "dark">("dark");
   const dispatch = useDispatch();
+  const isLoggedIn = useSelector((state: RootState) => state.auth.isLoggedIn);
 
-  const selector = useSelector((state: RootState) => state.auth.isLoggedIn);
-  console.log(selector);
-  
   useEffect(() => {
     // Check authentication status on app load
     dispatch(checkAuth());
@@ -39,6 +43,12 @@ function App() {
             <Route path="/signin" element={<LoginPage />} />
             <Route path="/signup" element={<SignupPage />} />
             <Route path="/" element={<Home />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/contact" element={<Contact />} />
+            <Route path="/account" element={isLoggedIn ? <Account /> : <LoginPage />} />
+            <Route path="/product/:id" element={<ProductView />} />
+            <Route path="/shop" element={<ShopAll />} />
+            <Route path="/category/:categoryId" element={<CategoryPage categoryId="1" categoryName="Electronics" />} />
           </Routes>
         </Router>
       </NotificationProvider>
