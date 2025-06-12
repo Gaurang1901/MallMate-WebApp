@@ -1,70 +1,70 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import {
   Box,
   Container,
   Typography,
-  Grid,
   Button,
   Rating,
   Divider,
   Chip,
   useTheme,
-  useMediaQuery,
-  IconButton,
-} from '@mui/material';
-import { motion } from 'framer-motion';
-import { useParams, useNavigate } from 'react-router-dom';
+  // useMediaQuery,
+  // IconButton,
+} from "@mui/material";
+import { motion } from "framer-motion";
+import { useNavigate } from "react-router-dom";
 import {
   ShoppingCart,
   Heart,
-  Share2,
+  // Share2,
   ChevronLeft,
   Package,
   Truck,
-  RefreshCw,
+  // RefreshCw,
   Shield,
-} from 'lucide-react';
+} from "lucide-react";
 
 // Mock data - replace with actual data from your backend
 const mockProduct = {
   id: 1,
-  name: 'Premium Wireless Headphones',
+  name: "Premium Wireless Headphones",
   price: 199.99,
-  image: '/images/products/product1.jpg',
+  image: "/images/products/product1.jpg",
   rating: 4.5,
   reviews: 120,
-  description: 'High-quality wireless headphones with noise cancellation. Experience crystal clear sound and immersive audio with our premium wireless headphones. Features include active noise cancellation, 30-hour battery life, and comfortable over-ear design.',
+  description:
+    "High-quality wireless headphones with noise cancellation. Experience crystal clear sound and immersive audio with our premium wireless headphones. Features include active noise cancellation, 30-hour battery life, and comfortable over-ear design.",
   features: [
-    'Active Noise Cancellation',
-    '30-hour Battery Life',
-    'Bluetooth 5.0',
-    'Built-in Microphone',
-    'Foldable Design',
+    "Active Noise Cancellation",
+    "30-hour Battery Life",
+    "Bluetooth 5.0",
+    "Built-in Microphone",
+    "Foldable Design",
   ],
   stock: 15,
-  brand: 'Premium Audio',
-  category: 'Electronics',
+  brand: "Premium Audio",
+  category: "Electronics",
 };
 
 const ProductView: React.FC = () => {
   const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
-  const { productId } = useParams();
+  // const isMobile = useMediaQuery(theme.breakpoints.down('md'));
+  // const { productId } = useParams();
   const navigate = useNavigate();
   const [selectedImage, setSelectedImage] = useState(mockProduct.image);
 
   // Mock images - replace with actual product images
   const productImages = [
     mockProduct.image,
-    '/images/products/product1-2.jpg',
-    '/images/products/product1-3.jpg',
-    '/images/products/product1-4.jpg',
+    "/images/products/product1-2.jpg",
+    "/images/products/product1-3.jpg",
+    "/images/products/product1-4.jpg",
   ];
 
   return (
     <Box
       sx={{
-        minHeight: '100vh',
+        minHeight: "100vh",
         bgcolor: theme.palette.background.default,
         pt: { xs: 2, md: 4 },
         pb: { xs: 4, md: 8 },
@@ -80,9 +80,15 @@ const ProductView: React.FC = () => {
           Back
         </Button>
 
-        <Grid container spacing={4}>
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: { xs: "column", md: "row" },
+            gap: 4,
+          }}
+        >
           {/* Product Images */}
-          <Grid item xs={12} md={6}>
+          <Box sx={{ flex: "1" }}>
             <Box
               component={motion.div}
               initial={{ opacity: 0, x: -20 }}
@@ -91,11 +97,11 @@ const ProductView: React.FC = () => {
             >
               <Box
                 sx={{
-                  position: 'relative',
-                  width: '100%',
+                  position: "relative",
+                  width: "100%",
                   height: { xs: 300, md: 500 },
                   borderRadius: 2,
-                  overflow: 'hidden',
+                  overflow: "hidden",
                   bgcolor: theme.palette.grey[100],
                   mb: 2,
                 }}
@@ -105,9 +111,9 @@ const ProductView: React.FC = () => {
                   src={selectedImage}
                   alt={mockProduct.name}
                   sx={{
-                    width: '100%',
-                    height: '100%',
-                    objectFit: 'cover',
+                    width: "100%",
+                    height: "100%",
+                    objectFit: "cover",
                   }}
                 />
               </Box>
@@ -115,14 +121,14 @@ const ProductView: React.FC = () => {
               {/* Thumbnail Images */}
               <Box
                 sx={{
-                  display: 'flex',
+                  display: "flex",
                   gap: 1,
-                  overflowX: 'auto',
+                  overflowX: "auto",
                   pb: 1,
-                  '&::-webkit-scrollbar': {
+                  "&::-webkit-scrollbar": {
                     height: 4,
                   },
-                  '&::-webkit-scrollbar-thumb': {
+                  "&::-webkit-scrollbar-thumb": {
                     bgcolor: theme.palette.grey[300],
                     borderRadius: 2,
                   },
@@ -136,12 +142,12 @@ const ProductView: React.FC = () => {
                       width: 80,
                       height: 80,
                       borderRadius: 1,
-                      overflow: 'hidden',
-                      cursor: 'pointer',
+                      overflow: "hidden",
+                      cursor: "pointer",
                       border: `2px solid ${
                         selectedImage === image
                           ? theme.palette.primary.main
-                          : 'transparent'
+                          : "transparent"
                       }`,
                     }}
                   >
@@ -150,19 +156,19 @@ const ProductView: React.FC = () => {
                       src={image}
                       alt={`${mockProduct.name} ${index + 1}`}
                       sx={{
-                        width: '100%',
-                        height: '100%',
-                        objectFit: 'cover',
+                        width: "100%",
+                        height: "100%",
+                        objectFit: "cover",
                       }}
                     />
                   </Box>
                 ))}
               </Box>
             </Box>
-          </Grid>
+          </Box>
 
           {/* Product Info */}
-          <Grid item xs={12} md={6}>
+          <Box sx={{ flex: "1" }}>
             <Box
               component={motion.div}
               initial={{ opacity: 0, x: 20 }}
@@ -180,7 +186,9 @@ const ProductView: React.FC = () => {
                 {mockProduct.name}
               </Typography>
 
-              <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 2 }}>
+              <Box
+                sx={{ display: "flex", alignItems: "center", gap: 1, mb: 2 }}
+              >
                 <Rating value={mockProduct.rating} precision={0.5} readOnly />
                 <Typography variant="body2" color="text.secondary">
                   ({mockProduct.reviews} reviews)
@@ -214,7 +222,7 @@ const ProductView: React.FC = () => {
                 <Typography variant="subtitle1" sx={{ mb: 1, fontWeight: 600 }}>
                   Key Features
                 </Typography>
-                <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
+                <Box sx={{ display: "flex", flexWrap: "wrap", gap: 1 }}>
                   {mockProduct.features.map((feature, index) => (
                     <Chip
                       key={index}
@@ -229,10 +237,10 @@ const ProductView: React.FC = () => {
               {/* Action Buttons */}
               <Box
                 sx={{
-                  display: 'flex',
+                  display: "flex",
                   gap: 2,
                   mb: 4,
-                  flexDirection: { xs: 'column', sm: 'row' },
+                  flexDirection: { xs: "column", sm: "row" },
                 }}
               >
                 <Button
@@ -243,8 +251,8 @@ const ProductView: React.FC = () => {
                   sx={{
                     py: 1.5,
                     borderRadius: 2,
-                    textTransform: 'none',
-                    fontSize: '1rem',
+                    textTransform: "none",
+                    fontSize: "1rem",
                   }}
                 >
                   Add to Cart
@@ -257,8 +265,8 @@ const ProductView: React.FC = () => {
                   sx={{
                     py: 1.5,
                     borderRadius: 2,
-                    textTransform: 'none',
-                    fontSize: '1rem',
+                    textTransform: "none",
+                    fontSize: "1rem",
                   }}
                 >
                   Add to Wishlist
@@ -272,26 +280,30 @@ const ProductView: React.FC = () => {
                 <Typography variant="subtitle1" sx={{ mb: 2, fontWeight: 600 }}>
                   Product Details
                 </Typography>
-                <Grid container spacing={2}>
-                  <Grid item xs={6}>
+                <Box sx={{ display: "flex", flexWrap: "wrap", gap: 2 }}>
+                  <Box sx={{ flex: "1 1 45%" }}>
                     <Typography variant="body2" color="text.secondary">
                       Brand
                     </Typography>
                     <Typography variant="body1">{mockProduct.brand}</Typography>
-                  </Grid>
-                  <Grid item xs={6}>
+                  </Box>
+                  <Box sx={{ flex: "1 1 45%" }}>
                     <Typography variant="body2" color="text.secondary">
                       Category
                     </Typography>
-                    <Typography variant="body1">{mockProduct.category}</Typography>
-                  </Grid>
-                  <Grid item xs={6}>
+                    <Typography variant="body1">
+                      {mockProduct.category}
+                    </Typography>
+                  </Box>
+                  <Box sx={{ flex: "1 1 45%" }}>
                     <Typography variant="body2" color="text.secondary">
                       Stock
                     </Typography>
-                    <Typography variant="body1">{mockProduct.stock} units</Typography>
-                  </Grid>
-                </Grid>
+                    <Typography variant="body1">
+                      {mockProduct.stock} units
+                    </Typography>
+                  </Box>
+                </Box>
               </Box>
 
               {/* Shipping Info */}
@@ -303,25 +315,29 @@ const ProductView: React.FC = () => {
                   mb: 4,
                 }}
               >
-                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 2 }}>
+                <Box
+                  sx={{ display: "flex", alignItems: "center", gap: 1, mb: 2 }}
+                >
                   <Truck size={20} />
                   <Typography variant="subtitle2">Free Shipping</Typography>
                 </Box>
-                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 2 }}>
+                <Box
+                  sx={{ display: "flex", alignItems: "center", gap: 1, mb: 2 }}
+                >
                   <Package size={20} />
                   <Typography variant="subtitle2">Easy Returns</Typography>
                 </Box>
-                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
                   <Shield size={20} />
                   <Typography variant="subtitle2">2 Year Warranty</Typography>
                 </Box>
               </Box>
             </Box>
-          </Grid>
-        </Grid>
+          </Box>
+        </Box>
       </Container>
     </Box>
   );
 };
 
-export default ProductView; 
+export default ProductView;
