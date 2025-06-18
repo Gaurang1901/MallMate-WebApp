@@ -12,7 +12,7 @@ import {
   InputAdornment,
   IconButton as MuiIconButton,
 } from "@mui/material";
-import { 
+import {
   HelpCircle,
   Moon,
   Sun,
@@ -49,14 +49,14 @@ export const Header: React.FC<HeaderProps> = ({
   const theme = useTheme();
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [showSearchBar, setShowSearchBar] = useState(false);
-  const [searchQuery, setSearchQuery] = useState('');
+  const [searchQuery, setSearchQuery] = useState("");
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const isLoggedIn = useSelector((state: RootState) => state.auth.isLoggedIn);
 
   const handleLogout = () => {
     dispatch(logout());
-    navigate('/');
+    navigate("/");
   };
 
   const headerLinks = [
@@ -64,7 +64,13 @@ export const Header: React.FC<HeaderProps> = ({
     // { id: 2, name: "Shop All", route: "/shop", icon: <Store /> },
     { id: 3, name: "Contact", route: "/contact", icon: <HelpCircle /> },
     { id: 4, name: "About", route: "/about", icon: <Info /> },
-    { id: 5, name: isLoggedIn ? "Logout" : "SignIn", route: isLoggedIn ? "/" : "/signin", icon: isLoggedIn ? <LogOut /> : <UserCircle />, onClick: isLoggedIn ? handleLogout : undefined },
+    {
+      id: 5,
+      name: isLoggedIn ? "Logout" : "SignIn",
+      route: isLoggedIn ? "/" : "/signin",
+      icon: isLoggedIn ? <LogOut /> : <UserCircle />,
+      onClick: isLoggedIn ? handleLogout : undefined,
+    },
   ];
 
   const toggleSidebar = () => {
@@ -73,9 +79,9 @@ export const Header: React.FC<HeaderProps> = ({
 
   const handleProfileClick = () => {
     if (isLoggedIn) {
-      navigate('/account');
+      navigate("/account");
     } else {
-      navigate('/signin');
+      navigate("/signin");
     }
   };
 
@@ -177,7 +183,10 @@ export const Header: React.FC<HeaderProps> = ({
                       }}
                       whileTap={{ scale: 0.95 }}
                       sx={{
-                        color: item.name === "Logout" ? "error.main" : theme.palette.text.primary,
+                        color:
+                          item.name === "Logout"
+                            ? "error.main"
+                            : theme.palette.text.primary,
                         borderRadius: 2,
                         px: 2,
                         py: 1,
@@ -185,8 +194,14 @@ export const Header: React.FC<HeaderProps> = ({
                         fontFamily: "Manrope",
                         fontWeight: 500,
                         "&:hover": {
-                          backgroundColor: item.name === "Logout" ? "error.light" : theme.palette.action.hover,
-                          color: item.name === "Logout" ? "error.contrastText" : theme.palette.text.primary,
+                          backgroundColor:
+                            item.name === "Logout"
+                              ? "error.light"
+                              : theme.palette.action.hover,
+                          color:
+                            item.name === "Logout"
+                              ? "error.contrastText"
+                              : theme.palette.text.primary,
                         },
                       }}
                     >
@@ -200,12 +215,17 @@ export const Header: React.FC<HeaderProps> = ({
                   sx={{
                     flexGrow: 1,
                     ml: { xs: 0, md: 2 },
-                    maxWidth: { xs: '100%', md: '50%' },
+                    maxWidth: { xs: "100%", md: "50%" },
                   }}
                   initial={{ opacity: 0, scaleX: 0, originX: 0 }}
                   animate={{ opacity: 1, scaleX: 1 }}
                   exit={{ opacity: 0, scaleX: 0 }}
-                  transition={{ type: "spring", stiffness: 300, damping: 30, duration: 0.2 }}
+                  transition={{
+                    type: "spring",
+                    stiffness: 300,
+                    damping: 30,
+                    duration: 0.2,
+                  }}
                   key="search-bar"
                 >
                   <TextField
@@ -216,8 +236,8 @@ export const Header: React.FC<HeaderProps> = ({
                     onChange={(e) => setSearchQuery(e.target.value)}
                     onBlur={() => setShowSearchBar(false)}
                     onKeyPress={(e) => {
-                      if (e.key === 'Enter') {
-                        console.log('Searching for:', searchQuery);
+                      if (e.key === "Enter") {
+                        console.log("Searching for:", searchQuery);
                         setShowSearchBar(false);
                       }
                     }}
@@ -229,14 +249,14 @@ export const Header: React.FC<HeaderProps> = ({
                       ),
                       endAdornment: searchQuery && (
                         <InputAdornment position="end">
-                          <MuiIconButton onClick={() => setSearchQuery('')}>
+                          <MuiIconButton onClick={() => setSearchQuery("")}>
                             <X size={20} />
                           </MuiIconButton>
                         </InputAdornment>
                       ),
                     }}
                     sx={{
-                      '& .MuiOutlinedInput-root': {
+                      "& .MuiOutlinedInput-root": {
                         borderRadius: 2,
                         pr: 1,
                       },
@@ -286,23 +306,43 @@ export const Header: React.FC<HeaderProps> = ({
               </Tooltip>
 
               <Tooltip title="Search">
-                <MotionIconButton
-                  onClick={() => setShowSearchBar(!showSearchBar)}
-                  whileHover={{
-                    scale: 1.2,
-                    y: -2,
-                  }}
-                  whileTap={{ scale: 0.9 }}
-                  sx={{
-                    color: theme.palette.text.primary,
-                    display: { xs: "none", md: "flex" },
-                    "&:hover": {
-                      backgroundColor: theme.palette.action.hover,
-                    },
-                  }}
-                >
-                  <Search />
-                </MotionIconButton>
+                {showSearchBar ? (
+                  <MotionIconButton
+                    onClick={() => setShowSearchBar(!showSearchBar)}
+                    whileHover={{
+                      scale: 1.2,
+                      y: -2,
+                    }}
+                    whileTap={{ scale: 0.9 }}
+                    sx={{
+                      color: theme.palette.text.primary,
+                      display: { xs: "none", md: "flex" },
+                      "&:hover": {
+                        backgroundColor: theme.palette.action.hover,
+                      },
+                    }}
+                  >
+                    <X />
+                  </MotionIconButton>
+                ) : (
+                  <MotionIconButton
+                    onClick={() => setShowSearchBar(!showSearchBar)}
+                    whileHover={{
+                      scale: 1.2,
+                      y: -2,
+                    }}
+                    whileTap={{ scale: 0.9 }}
+                    sx={{
+                      color: theme.palette.text.primary,
+                      display: { xs: "none", md: "flex" },
+                      "&:hover": {
+                        backgroundColor: theme.palette.action.hover,
+                      },
+                    }}
+                  >
+                    <Search />
+                  </MotionIconButton>
+                )}
               </Tooltip>
 
               {isLoggedIn ? (
@@ -411,7 +451,7 @@ export const Header: React.FC<HeaderProps> = ({
                   whileTap={{ scale: 0.9 }}
                   sx={{
                     color: theme.palette.text.primary,
-                    display: { xs: 'flex', md: 'none' },
+                    display: { xs: "flex", md: "none" },
                     "&:hover": {
                       backgroundColor: theme.palette.action.hover,
                     },

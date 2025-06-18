@@ -99,10 +99,9 @@ const Home: React.FC = () => {
       </section>
 
       {/* Categories Section */}
-      <Box
-        component="section"
+      <section
         className="py-12"
-        sx={{ bgcolor: theme.palette.background.default }}
+        style={{ backgroundColor: theme.palette.background.default }}
       >
         <div className="container mx-auto px-4">
           <h2
@@ -113,26 +112,24 @@ const Home: React.FC = () => {
           </h2>
           <CategoriesMenu />
         </div>
-      </Box>
+      </section>
 
       {/* Product Carousel Section */}
       <ProductCarousel />
 
       {/* Stats Section */}
-      <Box
-        component="section"
+      <section
         className="py-16"
-        sx={{ bgcolor: theme.palette.background.default }}
+        style={{ backgroundColor: theme.palette.background.default }}
       >
         <BrandsCarousel/>
-      </Box>
+      </section>
 
       {/* Features Section */}
-      <Box
-        component="section"
+      <section
         className="py-16"
-        sx={{
-          bgcolor:
+        style={{
+          backgroundColor:
             theme.palette.mode === "dark"
               ? "rgba(255, 255, 255, 0.05)"
               : "rgba(0, 0, 0, 0.02)",
@@ -164,15 +161,15 @@ const Home: React.FC = () => {
                 key={feature.title}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: index * 0.2 }}
-                className="flex flex-col items-center text-center p-6 rounded-lg"
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+                className="flex flex-col items-center p-6 rounded-lg"
                 style={{
                   backgroundColor: theme.palette.background.paper,
                   border: `1px solid ${theme.palette.divider}`,
                 }}
               >
                 <feature.icon
-                  className="w-12 h-12 mb-4"
+                  className="w-8 h-8 mb-2"
                   style={{ color: theme.palette.primary.main }}
                 />
                 <h3
@@ -182,7 +179,7 @@ const Home: React.FC = () => {
                   {feature.title}
                 </h3>
                 <p
-                  className="text-muted-foreground"
+                  className="text-center"
                   style={{ color: theme.palette.text.secondary }}
                 >
                   {feature.description}
@@ -191,13 +188,12 @@ const Home: React.FC = () => {
             ))}
           </div>
         </div>
-      </Box>
+      </section>
 
       {/* Stats Section */}
-      <Box
-        component="section"
+      <section
         className="py-16"
-        sx={{ bgcolor: theme.palette.background.default }}
+        style={{ backgroundColor: theme.palette.background.default }}
       >
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
@@ -238,14 +234,13 @@ const Home: React.FC = () => {
             ))}
           </div>
         </div>
-      </Box>
+      </section>
 
       {/* Upcoming Events Section */}
-      <Box
-        component="section"
+      <section
         className="py-16"
-        sx={{
-          bgcolor:
+        style={{
+          backgroundColor:
             theme.palette.mode === "dark"
               ? "rgba(255, 255, 255, 0.05)"
               : "rgba(0, 0, 0, 0.02)",
@@ -303,7 +298,7 @@ const Home: React.FC = () => {
             </motion.div>
           </div>
         </div>
-      </Box>
+      </section>
       <Footer />
     </Box>
   );
