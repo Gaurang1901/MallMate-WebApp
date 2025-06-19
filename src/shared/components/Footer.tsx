@@ -1,11 +1,11 @@
 import React from 'react';
-import { useTheme, useMediaQuery, Typography } from '@mui/material';
+import { useTheme, Typography } from '@mui/material';
 import { motion } from 'framer-motion';
 import { Facebook, Twitter, Instagram, Youtube } from 'lucide-react';
 
 const Footer: React.FC = () => {
   const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+  // const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
   const isDarkMode = theme.palette.mode === 'dark';
 
   const columnVariants = {

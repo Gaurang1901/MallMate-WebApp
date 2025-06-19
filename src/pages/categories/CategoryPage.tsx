@@ -4,7 +4,7 @@ import {
   Container,
   Typography,
   useTheme,
-  useMediaQuery,
+  // useMediaQuery,
 } from "@mui/material";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
@@ -61,13 +61,14 @@ const CategoryPage: React.FC<CategoryPageProps> = ({
   categoryName,
 }) => {
   const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+  // const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const navigate = useNavigate();
   const [filteredProducts, setFilteredProducts] = useState(mockProducts);
 
   const handleFilterChange = (filters: any) => {
     // Implement filter logic here
     console.log("Filters:", filters);
+    console.log("Filters:", categoryId);
     // For now, just update the products (you'll implement actual filtering logic)
     setFilteredProducts(mockProducts);
   };

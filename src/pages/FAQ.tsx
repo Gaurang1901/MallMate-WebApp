@@ -9,7 +9,8 @@ import {
   InputAdornment,
 } from '@mui/material';
 import { motion } from 'framer-motion';
-import { Search, ExpandMore } from '@mui/icons-material';
+import { ChevronDown, Search } from 'lucide-react';
+// import { Search, ExpandMore } from '@mui/icons-material';
 
 // Animation variants
 const containerVariants = {
@@ -184,7 +185,7 @@ const FAQ: React.FC = () => {
                   }}
                 >
                   <AccordionSummary
-                    expandIcon={<ExpandMore sx={{ color: theme.palette.primary.main }} />}
+                    expandIcon={<ChevronDown />}
                     sx={{
                       '&:hover': {
                         backgroundColor: theme.palette.mode === 'dark'
