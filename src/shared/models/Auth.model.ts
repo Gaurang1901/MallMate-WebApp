@@ -3,6 +3,8 @@ export interface User {
   fullname: string;
   email: string;
   role: string;
+  avatar?:string;
+  bio?:string;
 }
 
 export interface AuthState {
