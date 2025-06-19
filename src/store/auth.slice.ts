@@ -13,8 +13,8 @@ import axios, { AxiosError } from "axios";
 
 const API_URL = import.meta.env.VITE_API_BASE_URL;
 
-// Check for existing token in localStorage
-const token = localStorage.getItem("token");
+// Check for existing token in sessionStorage
+const token = sessionStorage.getItem("token");
 
 const initialState: AuthState = {
   user: null,
@@ -79,10 +79,10 @@ const authSlice = createSlice({
       state.user = null;
       state.token = null;
       state.isLoggedIn = false;
-      localStorage.removeItem("token");
+      sessionStorage.removeItem("token");
     },
     checkAuth: (state) => {
-      const token = localStorage.getItem("token");
+      const token = sessionStorage.getItem("token");
       state.token = token;
       state.isLoggedIn = !!token;
     },
@@ -102,7 +102,8 @@ const authSlice = createSlice({
           state.isLoggedIn = true;
           state.token = action.payload.token;
           console.log("Updated state:", state);
-          localStorage.setItem("token", action.payload.token);
+          // sessionStorage.setItem("token", action.payload.token);
+          sessionStorage.setItem("token", action.payload.token);
         }
       )
       .addCase(loginUser.rejected, (state, action) => {
@@ -110,7 +111,7 @@ const authSlice = createSlice({
         state.error = action.payload || "Login failed";
         state.isLoggedIn = false;
         state.token = null;
-        localStorage.removeItem("token");
+        sessionStorage.removeItem("token");
       })
 
       .addCase(signupUser.pending, (state) => {
@@ -124,7 +125,7 @@ const authSlice = createSlice({
           state.user = action.payload.user;
           state.isLoggedIn = true;
           state.token = action.payload.token;
-          localStorage.setItem("token", action.payload.token);
+          sessionStorage.setItem("token", action.payload.token);
         }
       )
       .addCase(signupUser.rejected, (state, action) => {
@@ -132,7 +133,7 @@ const authSlice = createSlice({
         state.error = action.payload || "Signup failed";
         state.isLoggedIn = false;
         state.token = null;
-        localStorage.removeItem("token");
+        sessionStorage.removeItem("token");
       });
   },
 });
