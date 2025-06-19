@@ -6,6 +6,7 @@ import { Facebook, Twitter, Instagram, Youtube } from 'lucide-react';
 const Footer: React.FC = () => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+  const isDarkMode = theme.palette.mode === 'dark';
 
   const columnVariants = {
     hidden: { opacity: 0, y: 20 },
@@ -20,18 +21,14 @@ const Footer: React.FC = () => {
   };
 
   return (
-    <footer
-      className="bg-background py-12"
-      style={{ backgroundColor: theme.palette.background.default }}
-    >
-      <div className="container mx-auto px-4">
+    <footer className={`py-12 ${isDarkMode ? 'bg-gray-900' : 'bg-gray-50'}`}>
+      <div className="max-w-7xl mx-auto px-4">
         <div
-          className="grid grid-cols-1 md:grid-cols-4 gap-8 shadow-lg rounded-2xl p-6 mb-8"
-          style={{
-            backgroundColor: theme.palette.background.paper,
-            boxShadow: theme.shadows[isMobile ? 1 : 4],
-            borderRadius: 16,
-          }}
+          className={`grid grid-cols-1 md:grid-cols-4 gap-8 rounded-2xl p-8 mb-8 ${
+            isDarkMode 
+              ? 'bg-gray-800/50 backdrop-blur-sm border border-gray-700/50' 
+              : 'bg-white shadow-lg border border-gray-100'
+          }`}
         >
           {/* Explore */}
           <motion.div
@@ -42,13 +39,51 @@ const Footer: React.FC = () => {
             variants={columnVariants}
           >
             <div className="p-0 md:p-2">
-              <Typography variant="h6" className="font-bold mb-3 tracking-wide">
+              <Typography 
+                variant="h6" 
+                className={`font-bold mb-3 tracking-wide ${
+                  isDarkMode ? 'text-gray-100' : 'text-gray-900'
+                }`}
+              >
                 Explore
               </Typography>
               <ul className="space-y-3 mt-2">
-                <li><a href="/shop" className="transition-colors hover:text-primary hover:bg-secondary p-1 rounded-sm font-medium">Shop All</a></li>
-                <li><a href="#" className="transition-colors hover:text-primary hover:bg-secondary p-1 rounded-sm font-medium">Categories</a></li>
-                <li><a href="/about" className="transition-colors hover:text-primary hover:bg-secondary p-1 rounded-sm font-medium">About</a></li>
+                <li>
+                  <a 
+                    href="/shop" 
+                    className={`transition-colors p-1 rounded-sm font-medium ${
+                      isDarkMode 
+                        ? 'text-gray-300 hover:text-primary-400 hover:bg-gray-700/50' 
+                        : 'text-gray-600 hover:text-primary-600 hover:bg-gray-100'
+                    }`}
+                  >
+                    Shop All
+                  </a>
+                </li>
+                <li>
+                  <a 
+                    href="#" 
+                    className={`transition-colors p-1 rounded-sm font-medium ${
+                      isDarkMode 
+                        ? 'text-gray-300 hover:text-primary-400 hover:bg-gray-700/50' 
+                        : 'text-gray-600 hover:text-primary-600 hover:bg-gray-100'
+                    }`}
+                  >
+                    Categories
+                  </a>
+                </li>
+                <li>
+                  <a 
+                    href="/about" 
+                    className={`transition-colors p-1 rounded-sm font-medium ${
+                      isDarkMode 
+                        ? 'text-gray-300 hover:text-primary-400 hover:bg-gray-700/50' 
+                        : 'text-gray-600 hover:text-primary-600 hover:bg-gray-100'
+                    }`}
+                  >
+                    About
+                  </a>
+                </li>
               </ul>
             </div>
           </motion.div>
@@ -62,13 +97,51 @@ const Footer: React.FC = () => {
             variants={columnVariants}
           >
             <div className="p-0 md:p-2">
-              <Typography variant="h6" className="font-bold mb-3 tracking-wide">
+              <Typography 
+                variant="h6" 
+                className={`font-bold mb-3 tracking-wide ${
+                  isDarkMode ? 'text-gray-100' : 'text-gray-900'
+                }`}
+              >
                 Quick Links
               </Typography>
               <ul className="space-y-3 mt-2">
-                <li><a href="/faq" className="transition-colors hover:text-primary hover:bg-secondary p-1 rounded-sm font-medium">FAQ</a></li>
-                <li><a href="/contact" className="transition-colors hover:text-primary hover:bg-secondary p-1 rounded-sm font-medium">Contact</a></li>
-                <li><a href="/terms" className="transition-colors hover:text-primary hover:bg-secondary p-1 rounded-sm font-medium">Terms & Conditions</a></li>
+                <li>
+                  <a 
+                    href="/faq" 
+                    className={`transition-colors p-1 rounded-sm font-medium ${
+                      isDarkMode 
+                        ? 'text-gray-300 hover:text-primary-400 hover:bg-gray-700/50' 
+                        : 'text-gray-600 hover:text-primary-600 hover:bg-gray-100'
+                    }`}
+                  >
+                    FAQ
+                  </a>
+                </li>
+                <li>
+                  <a 
+                    href="/contact" 
+                    className={`transition-colors p-1 rounded-sm font-medium ${
+                      isDarkMode 
+                        ? 'text-gray-300 hover:text-primary-400 hover:bg-gray-700/50' 
+                        : 'text-gray-600 hover:text-primary-600 hover:bg-gray-100'
+                    }`}
+                  >
+                    Contact
+                  </a>
+                </li>
+                <li>
+                  <a 
+                    href="/terms" 
+                    className={`transition-colors p-1 rounded-sm font-medium ${
+                      isDarkMode 
+                        ? 'text-gray-300 hover:text-primary-400 hover:bg-gray-700/50' 
+                        : 'text-gray-600 hover:text-primary-600 hover:bg-gray-100'
+                    }`}
+                  >
+                    Terms & Conditions
+                  </a>
+                </li>
               </ul>
             </div>
           </motion.div>
@@ -82,17 +155,34 @@ const Footer: React.FC = () => {
             variants={columnVariants}
           >
             <div className="p-0 md:p-2">
-              <Typography variant="h6" className="font-bold mb-3 tracking-wide">
+              <Typography 
+                variant="h6" 
+                className={`font-bold mb-3 tracking-wide ${
+                  isDarkMode ? 'text-gray-100' : 'text-gray-900'
+                }`}
+              >
                 Contact Us
               </Typography>
               <ul className="space-y-3 mt-2">
-                <li className="transition-colors hover:text-primary hover:bg-secondary p-1 rounded-sm font-medium">
+                <li className={`transition-colors p-1 rounded-sm font-medium ${
+                  isDarkMode 
+                    ? 'text-gray-300 hover:text-primary-400 hover:bg-gray-700/50' 
+                    : 'text-gray-600 hover:text-primary-600 hover:bg-gray-100'
+                }`}>
                   Email: info@mallmate.com
                 </li>
-                <li className="transition-colors hover:text-primary hover:bg-secondary p-1 rounded-sm font-medium">
+                <li className={`transition-colors p-1 rounded-sm font-medium ${
+                  isDarkMode 
+                    ? 'text-gray-300 hover:text-primary-400 hover:bg-gray-700/50' 
+                    : 'text-gray-600 hover:text-primary-600 hover:bg-gray-100'
+                }`}>
                   Phone: +1 (555) 123-4567
                 </li>
-                <li className="transition-colors hover:text-primary hover:bg-secondary p-1 rounded-sm font-medium">
+                <li className={`transition-colors p-1 rounded-sm font-medium ${
+                  isDarkMode 
+                    ? 'text-gray-300 hover:text-primary-400 hover:bg-gray-700/50' 
+                    : 'text-gray-600 hover:text-primary-600 hover:bg-gray-100'
+                }`}>
                   Address: 123 Mall Street, City, Country
                 </li>
               </ul>
@@ -108,39 +198,56 @@ const Footer: React.FC = () => {
             variants={columnVariants}
           >
             <div className="p-0 md:p-2">
-              <Typography variant="h6" className="font-bold mb-3 tracking-wide">
+              <Typography 
+                variant="h6" 
+                className={`font-bold mb-3 tracking-wide ${
+                  isDarkMode ? 'text-gray-100' : 'text-gray-900'
+                }`}
+              >
                 Follow Us
               </Typography>
               <div className="flex space-x-4 mt-2">
                 <a
                   href="#"
-                  className="transition-all duration-300 hover:text-primary hover:bg-secondary p-2 rounded-full hover:scale-110"
+                  className={`transition-all duration-300 p-2 rounded-full hover:scale-110 ${
+                    isDarkMode 
+                      ? 'text-gray-300 hover:text-primary-400 hover:bg-gray-700/50' 
+                      : 'text-gray-600 hover:text-primary-600 hover:bg-gray-100'
+                  }`}
                   aria-label="Facebook"
-                  style={{ color: theme.palette.text.primary }}
                 >
                   <Facebook size={24} />
                 </a>
                 <a
                   href="#"
-                  className="transition-all duration-300 hover:text-primary hover:bg-secondary p-2 rounded-full hover:scale-110"
+                  className={`transition-all duration-300 p-2 rounded-full hover:scale-110 ${
+                    isDarkMode 
+                      ? 'text-gray-300 hover:text-primary-400 hover:bg-gray-700/50' 
+                      : 'text-gray-600 hover:text-primary-600 hover:bg-gray-100'
+                  }`}
                   aria-label="Twitter"
-                  style={{ color: theme.palette.text.primary }}
                 >
                   <Twitter size={24} />
                 </a>
                 <a
                   href="#"
-                  className="transition-all duration-300 hover:text-primary hover:bg-secondary p-2 rounded-full hover:scale-110"
+                  className={`transition-all duration-300 p-2 rounded-full hover:scale-110 ${
+                    isDarkMode 
+                      ? 'text-gray-300 hover:text-primary-400 hover:bg-gray-700/50' 
+                      : 'text-gray-600 hover:text-primary-600 hover:bg-gray-100'
+                  }`}
                   aria-label="Instagram"
-                  style={{ color: theme.palette.text.primary }}
                 >
                   <Instagram size={24} />
                 </a>
                 <a
                   href="#"
-                  className="transition-all duration-300 hover:text-primary hover:bg-secondary p-2 rounded-full hover:scale-110"
+                  className={`transition-all duration-300 p-2 rounded-full hover:scale-110 ${
+                    isDarkMode 
+                      ? 'text-gray-300 hover:text-primary-400 hover:bg-gray-700/50' 
+                      : 'text-gray-600 hover:text-primary-600 hover:bg-gray-100'
+                  }`}
                   aria-label="YouTube"
-                  style={{ color: theme.palette.text.primary }}
                 >
                   <Youtube size={24} />
                 </a>
@@ -150,7 +257,10 @@ const Footer: React.FC = () => {
         </div>
 
         <div className="text-center">
-          <Typography variant="body2" color="text.secondary">
+          <Typography 
+            variant="body2" 
+            className={isDarkMode ? 'text-gray-400' : 'text-gray-600'}
+          >
             © {new Date().getFullYear()} MallMate. All rights reserved.
           </Typography>
         </div>

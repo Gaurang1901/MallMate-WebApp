@@ -4,7 +4,7 @@ import {
   Button,
   Rating,
   Chip,
-  useTheme,
+  // useTheme,
   IconButton,
   TextField,
   Divider,
@@ -55,9 +55,11 @@ const productImages = [
 ];
 
 const ProductView: React.FC = () => {
-  const theme = useTheme();
+  // const theme = useTheme();
   const navigate = useNavigate();
   const { id } = useParams();
+  console.log(id);
+
   const [selectedImage, setSelectedImage] = useState(mockProduct.image);
   const [quantity, setQuantity] = useState(1);
 
@@ -173,7 +175,8 @@ const ProductView: React.FC = () => {
                   color: "primary.main",
                   fontWeight: 700,
                   mb: 4,
-                  background: "linear-gradient(45deg, #90caf9 30%, #ce93d8 90%)",
+                  background:
+                    "linear-gradient(45deg, #90caf9 30%, #ce93d8 90%)",
                   backgroundClip: "text",
                   textFillColor: "transparent",
                   WebkitBackgroundClip: "text",
@@ -298,9 +301,11 @@ const ProductView: React.FC = () => {
                   textTransform: "none",
                   fontSize: "1rem",
                   fontWeight: 600,
-                  background: "linear-gradient(45deg, #90caf9 30%, #ce93d8 90%)",
+                  background:
+                    "linear-gradient(45deg, #90caf9 30%, #ce93d8 90%)",
                   "&:hover": {
-                    background: "linear-gradient(45deg, #90caf9 40%, #ce93d8 100%)",
+                    background:
+                      "linear-gradient(45deg, #90caf9 40%, #ce93d8 100%)",
                   },
                 }}
               >

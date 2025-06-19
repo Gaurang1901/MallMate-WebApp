@@ -1,306 +1,368 @@
 import React, { useState, useEffect } from "react";
-import CategoriesMenu from "./components/CategoriesMenu";
 import { motion, AnimatePresence } from "framer-motion";
-import { Search, MapPin, Clock, Store, Users, Star } from "lucide-react";
-import { useTheme } from "@mui/material/styles";
-import { Box, useMediaQuery } from "@mui/material";
-import ProductCarousel from "./components/ProductCarousel";
-
+import { Typography, Button, useTheme } from "@mui/material";
+import { ArrowRight, TrendingUp, Star, Clock, Shield } from "lucide-react";
+import CategoriesMenu from "./components/CategoriesMenu";
+import FeaturedProducts from "./components/FeaturedProducts";
+import NewArrivals from "./components/NewArrivals";
+import BestSellers from "./components/BestSellers";
 import bg1 from "../../assets/Shopping-Mall-Home-Bg-1.png";
 import bg2 from "../../assets/Shopping-Mall-Home-Bg-2.png";
 import bg3 from "../../assets/Shopping-Mall-Home-Bg-3.png";
 import bg4 from "../../assets/Shopping-Mall-Home-Bg-4.png";
 import bg5 from "../../assets/Shopping-Mall-Home-Bg-5.png";
-import Footer from "../../shared/components/Footer";
-import BrandsCarousel from  "./components/BrandsCarousel";
+import Footer from "@/shared/components/Footer";
 
+// Mock background images - replace with your actual images
 const backgrounds = [bg1, bg2, bg3, bg4, bg5];
 
 const Home: React.FC = () => {
   const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+  const isDarkMode = theme.palette.mode === 'dark';
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentImageIndex((prevIndex) => (prevIndex + 1) % backgrounds.length);
-    }, 5000);
+    }, 5000); // Change image every 5 seconds
 
     return () => clearInterval(interval);
   }, []);
 
   return (
-    <Box
-      className="min-h-screen"
-      sx={{
-        bgcolor: theme.palette.background.default,
-        color: theme.palette.text.primary,
-      }}
-    >
-      {/* Hero Section */}
-      <section className="relative h-[60vh] overflow-hidden">
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={currentImageIndex}
-            initial={{ opacity: 0, scale: 1.1 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.9 }}
-            transition={{ duration: 1.5, ease: "easeInOut" }}
-            className="absolute inset-0"
-          >
+    <>
+      <div className={`min-h-screen ${isDarkMode ? 'bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900' : 'bg-gradient-to-br from-gray-50 via-gray-100 to-gray-50'}`}>
+        {/* Hero Section */}
+        <section className="relative py-28 overflow-hidden">
+          <AnimatePresence mode="wait">
             <motion.div
-              animate={{ scale: [1, 1.1, 1] }}
-              transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
+              key={currentImageIndex}
+              initial={{ opacity: 0, scale: 1.1 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.9 }}
+              transition={{ duration: 1.5, ease: "easeInOut" }}
               className="absolute inset-0"
-              style={{
-                backgroundImage: `url(${backgrounds[currentImageIndex]})`,
-                backgroundSize: "cover",
-                backgroundPosition: "center",
-              }}
-            />
-            <Box
-              className="absolute inset-0"
-              sx={{
-                bgcolor:
-                  theme.palette.mode === "dark"
-                    ? "rgba(0, 0, 0, 0.5)"
-                    : "rgba(0, 0, 0, 0.3)",
-                background: `linear-gradient(to right, ${theme.palette.primary.main}33, ${theme.palette.primary.main}11, ${theme.palette.background.default}33)`,
-              }}
-            />
-          </motion.div>
-        </AnimatePresence>
-        <div className="relative container mx-auto px-4 h-full flex flex-col items-center justify-center text-center">
-          <motion.h1
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            style={{
-              color: theme.palette.text.primary,
-              fontSize: isMobile ? "2rem" : "3.75rem",
-            }}
-            className="font-bold mb-6"
-          >
-            Welcome to MallMate
-          </motion.h1>
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-            style={{
-              color: theme.palette.text.disabled,
-              fontSize: isMobile ? "1rem" : "1.25rem",
-            }}
-            className="mb-8 max-w-2xl"
-          >
-            Your one-stop destination for shopping, dining, and entertainment
-          </motion.p>
-        </div>
-      </section>
-
-      {/* Categories Section */}
-      <section
-        className="py-12"
-        style={{ backgroundColor: theme.palette.background.default }}
-      >
-        <div className="container mx-auto px-4">
-          <h2
-            className="text-2xl font-semibold mb-8 text-center"
-            style={{ color: theme.palette.text.primary }}
-          >
-            Browse Categories
-          </h2>
-          <CategoriesMenu />
-        </div>
-      </section>
-
-      {/* Product Carousel Section */}
-      <ProductCarousel />
-
-      {/* Stats Section */}
-      <section
-        className="py-16"
-        style={{ backgroundColor: theme.palette.background.default }}
-      >
-        <BrandsCarousel/>
-      </section>
-
-      {/* Features Section */}
-      <section
-        className="py-16"
-        style={{
-          backgroundColor:
-            theme.palette.mode === "dark"
-              ? "rgba(255, 255, 255, 0.05)"
-              : "rgba(0, 0, 0, 0.02)",
-        }}
-      >
-        <div className="container mx-auto px-4">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {[
-              {
-                icon: MapPin,
-                title: "Easy Navigation",
-                description:
-                  "Find your way around the mall with our interactive map and store locator",
-              },
-              {
-                icon: Clock,
-                title: "Real-time Updates",
-                description:
-                  "Stay informed about store hours, events, and special offers",
-              },
-              {
-                icon: Search,
-                title: "Smart Search",
-                description:
-                  "Quickly find what you're looking for with our advanced search feature",
-              },
-            ].map((feature, index) => (
-              <motion.div
-                key={feature.title}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-                className="flex flex-col items-center p-6 rounded-lg"
-                style={{
-                  backgroundColor: theme.palette.background.paper,
-                  border: `1px solid ${theme.palette.divider}`,
-                }}
-              >
-                <feature.icon
-                  className="w-8 h-8 mb-2"
-                  style={{ color: theme.palette.primary.main }}
-                />
-                <h3
-                  className="text-xl font-semibold mb-2"
-                  style={{ color: theme.palette.text.primary }}
-                >
-                  {feature.title}
-                </h3>
-                <p
-                  className="text-center"
-                  style={{ color: theme.palette.text.secondary }}
-                >
-                  {feature.description}
-                </p>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Stats Section */}
-      <section
-        className="py-16"
-        style={{ backgroundColor: theme.palette.background.default }}
-      >
-        <div className="container mx-auto px-4">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-            {[
-              { icon: Store, value: "200+", label: "Stores" },
-              { icon: Users, value: "50k+", label: "Visitors" },
-              { icon: Star, value: "4.8", label: "Rating" },
-              { icon: Clock, value: "24/7", label: "Support" },
-            ].map((stat, index) => (
-              <motion.div
-                key={stat.label}
-                initial={{ opacity: 0, scale: 0.9 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-                className="flex flex-col items-center p-6 rounded-lg"
-                style={{
-                  backgroundColor: theme.palette.background.paper,
-                  border: `1px solid ${theme.palette.divider}`,
-                }}
-              >
-                <stat.icon
-                  className="w-8 h-8 mb-2"
-                  style={{ color: theme.palette.primary.main }}
-                />
-                <h4
-                  className="text-2xl font-bold"
-                  style={{ color: theme.palette.text.primary }}
-                >
-                  {stat.value}
-                </h4>
-                <p
-                  className="text-sm"
-                  style={{ color: theme.palette.text.secondary }}
-                >
-                  {stat.label}
-                </p>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Upcoming Events Section */}
-      <section
-        className="py-16"
-        style={{
-          backgroundColor:
-            theme.palette.mode === "dark"
-              ? "rgba(255, 255, 255, 0.05)"
-              : "rgba(0, 0, 0, 0.02)",
-        }}
-      >
-        <div className="container mx-auto px-4">
-          <h2
-            className="text-2xl font-semibold mb-8 text-center"
-            style={{ color: theme.palette.text.primary }}
-          >
-            Upcoming Events
-          </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5 }}
-              className="rounded-lg overflow-hidden"
-              style={{
-                backgroundColor: theme.palette.background.paper,
-                border: `1px solid ${theme.palette.divider}`,
-              }}
             >
-              <div
-                className="aspect-video"
+              <motion.div
+                animate={{ scale: [1, 1.1, 1] }}
+                transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
+                className="absolute inset-0"
                 style={{
-                  backgroundColor:
-                    theme.palette.mode === "dark"
-                      ? "rgba(255, 255, 255, 0.1)"
-                      : "rgba(0, 0, 0, 0.1)",
+                  backgroundImage: `url(${backgrounds[currentImageIndex]})`,
+                  backgroundSize: "cover",
+                  backgroundPosition: "center",
                 }}
               />
-              <div className="p-4">
-                <h3
-                  className="font-semibold mb-2"
-                  style={{ color: theme.palette.text.primary }}
-                >
-                  Summer Fashion Show
-                </h3>
-                <p
-                  className="text-sm mb-4"
-                  style={{ color: theme.palette.text.secondary }}
-                >
-                  Join us for the latest fashion trends and exclusive
-                  collections
-                </p>
-                <div
-                  className="flex items-center text-sm"
-                  style={{ color: theme.palette.text.secondary }}
-                >
-                  <Clock className="w-4 h-4 mr-2" />
-                  <span>June 15, 2024 • 2:00 PM</span>
-                </div>
-              </div>
+              <div className={`absolute inset-0 ${
+                isDarkMode 
+                  ? 'bg-gradient-to-r from-gray-900/60 via-gray-900/40 to-gray-900/60 backdrop-blur-[2px]'
+                  : 'bg-white/60'
+              }`} />
+            </motion.div>
+          </AnimatePresence>
+          <div className="max-w-7xl mx-auto px-4 relative">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+              className="text-center max-w-2xl mx-auto"
+            >
+              <Typography
+                variant="h2"
+                sx={{
+                  fontWeight: 800,
+                  fontSize: { xs: "2rem", md: "3rem" },
+                  background: "linear-gradient(45deg, #90caf9 30%, #ce93d8 90%)",
+                  backgroundClip: "text",
+                  textFillColor: "transparent",
+                  WebkitBackgroundClip: "text",
+                  WebkitTextFillColor: "transparent",
+                  mb: 2,
+                }}
+              >
+                Discover Your Style
+              </Typography>
+              <Typography
+                variant="h6"
+                sx={{
+                  color: isDarkMode ? "text.secondary" : "text.primary",
+                  mb: 6,
+                  opacity: 0.9,
+                  lineHeight: 1.6,
+                  fontSize: { xs: "1rem", md: "1.25rem" },
+                }}
+              >
+                Explore our curated collection of premium products, designed to
+                elevate your shopping experience.
+              </Typography>
+              <Button
+                variant="contained"
+                size="large"
+                endIcon={<ArrowRight />}
+                sx={{
+                  py: 1.5,
+                  px: 4,
+                  borderRadius: 2,
+                  textTransform: "none",
+                  fontSize: "1rem",
+                  fontWeight: 600,
+                  background: "linear-gradient(45deg, #90caf9 30%, #ce93d8 90%)",
+                  "&:hover": {
+                    background: "linear-gradient(45deg, #90caf9 40%, #ce93d8 100%)",
+                  },
+                }}
+              >
+                Shop Now
+              </Button>
             </motion.div>
           </div>
-        </div>
-      </section>
+        </section>
+
+        {/* Features Section */}
+        <section className={`py-16 ${isDarkMode ? 'bg-gray-800/50' : 'bg-gray-100/50'} backdrop-blur-sm`}>
+          <div className="max-w-7xl mx-auto px-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.1 }}
+                className={`rounded-2xl p-6 backdrop-blur-sm border ${
+                  isDarkMode 
+                    ? 'bg-gray-800/50 border-gray-700/50 hover:border-primary-500/50' 
+                    : 'bg-white border-gray-200 hover:border-primary-500/50'
+                } transition-colors duration-300`}
+              >
+                <div className="p-3 rounded-xl bg-primary-500/10 w-fit mb-4">
+                  <TrendingUp className="text-primary-500" size={24} />
+                </div>
+                <Typography variant="h6" sx={{ fontWeight: 600, mb: 1, color: isDarkMode ? 'text.primary' : 'text.primary' }}>
+                  Trending Products
+                </Typography>
+                <Typography
+                  variant="body2"
+                  sx={{ color: isDarkMode ? "text.secondary" : "text.primary", opacity: 0.8 }}
+                >
+                  Discover what's hot and popular right now
+                </Typography>
+              </motion.div>
+
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.2 }}
+                className={`rounded-2xl p-6 backdrop-blur-sm border ${
+                  isDarkMode 
+                    ? 'bg-gray-800/50 border-gray-700/50 hover:border-primary-500/50' 
+                    : 'bg-white border-gray-200 hover:border-primary-500/50'
+                } transition-colors duration-300`}
+              >
+                <div className="p-3 rounded-xl bg-primary-500/10 w-fit mb-4">
+                  <Star className="text-primary-500" size={24} />
+                </div>
+                <Typography variant="h6" sx={{ fontWeight: 600, mb: 1, color: isDarkMode ? 'text.primary' : 'text.primary' }}>
+                  Best Quality
+                </Typography>
+                <Typography
+                  variant="body2"
+                  sx={{ color: isDarkMode ? "text.secondary" : "text.primary", opacity: 0.8 }}
+                >
+                  Premium products with guaranteed quality
+                </Typography>
+              </motion.div>
+
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.3 }}
+                className={`rounded-2xl p-6 backdrop-blur-sm border ${
+                  isDarkMode 
+                    ? 'bg-gray-800/50 border-gray-700/50 hover:border-primary-500/50' 
+                    : 'bg-white border-gray-200 hover:border-primary-500/50'
+                } transition-colors duration-300`}
+              >
+                <div className="p-3 rounded-xl bg-primary-500/10 w-fit mb-4">
+                  <Clock className="text-primary-500" size={24} />
+                </div>
+                <Typography variant="h6" sx={{ fontWeight: 600, mb: 1, color: isDarkMode ? 'text.primary' : 'text.primary' }}>
+                  Fast Delivery
+                </Typography>
+                <Typography
+                  variant="body2"
+                  sx={{ color: isDarkMode ? "text.secondary" : "text.primary", opacity: 0.8 }}
+                >
+                  Quick and reliable shipping worldwide
+                </Typography>
+              </motion.div>
+
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.4 }}
+                className={`rounded-2xl p-6 backdrop-blur-sm border ${
+                  isDarkMode 
+                    ? 'bg-gray-800/50 border-gray-700/50 hover:border-primary-500/50' 
+                    : 'bg-white border-gray-200 hover:border-primary-500/50'
+                } transition-colors duration-300`}
+              >
+                <div className="p-3 rounded-xl bg-primary-500/10 w-fit mb-4">
+                  <Shield className="text-primary-500" size={24} />
+                </div>
+                <Typography variant="h6" sx={{ fontWeight: 600, mb: 1, color: isDarkMode ? 'text.primary' : 'text.primary' }}>
+                  Secure Shopping
+                </Typography>
+                <Typography
+                  variant="body2"
+                  sx={{ color: isDarkMode ? "text.secondary" : "text.primary", opacity: 0.8 }}
+                >
+                  Safe and secure payment options
+                </Typography>
+              </motion.div>
+            </div>
+          </div>
+        </section>
+
+        {/* Categories Section */}
+        <section className={`py-16 ${isDarkMode ? 'bg-gray-900' : 'bg-white'}`}>
+          <div className="max-w-7xl mx-auto px-4">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+              className="text-center mb-12"
+            >
+              <Typography
+                variant="h2"
+                sx={{
+                  fontWeight: 700,
+                  mb: 2,
+                  fontSize: { xs: "2rem", md: "2.5rem" },
+                  background: "linear-gradient(45deg, #90caf9 30%, #ce93d8 90%)",
+                  backgroundClip: "text",
+                  textFillColor: "transparent",
+                  WebkitBackgroundClip: "text",
+                  WebkitTextFillColor: "transparent",
+                }}
+              >
+                Shop by Category
+              </Typography>
+              <Typography
+                variant="h6"
+                sx={{ color: isDarkMode ? "text.secondary" : "text.primary", opacity: 0.8 }}
+              >
+                Browse our wide range of categories
+              </Typography>
+            </motion.div>
+            <CategoriesMenu />
+          </div>
+        </section>
+
+        {/* Featured Products Section */}
+        <section className={`py-16 ${isDarkMode ? 'bg-gray-800/50' : 'bg-gray-100/50'} backdrop-blur-sm`}>
+          <div className="max-w-7xl mx-auto px-4">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+              className="text-center mb-12"
+            >
+              <Typography
+                variant="h2"
+                sx={{
+                  fontWeight: 700,
+                  mb: 2,
+                  fontSize: { xs: "2rem", md: "2.5rem" },
+                  background: "linear-gradient(45deg, #90caf9 30%, #ce93d8 90%)",
+                  backgroundClip: "text",
+                  textFillColor: "transparent",
+                  WebkitBackgroundClip: "text",
+                  WebkitTextFillColor: "transparent",
+                }}
+              >
+                Featured Products
+              </Typography>
+              <Typography
+                variant="h6"
+                sx={{ color: isDarkMode ? "text.secondary" : "text.primary", opacity: 0.8 }}
+              >
+                Handpicked products just for you
+              </Typography>
+            </motion.div>
+            <FeaturedProducts />
+          </div>
+        </section>
+
+        {/* New Arrivals Section */}
+        <section className={`py-16 ${isDarkMode ? 'bg-gray-900' : 'bg-white'}`}>
+          <div className="max-w-7xl mx-auto px-4">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+              className="text-center mb-12"
+            >
+              <Typography
+                variant="h2"
+                sx={{
+                  fontWeight: 700,
+                  mb: 2,
+                  fontSize: { xs: "2rem", md: "2.5rem" },
+                  background: "linear-gradient(45deg, #90caf9 30%, #ce93d8 90%)",
+                  backgroundClip: "text",
+                  textFillColor: "transparent",
+                  WebkitBackgroundClip: "text",
+                  WebkitTextFillColor: "transparent",
+                }}
+              >
+                New Arrivals
+              </Typography>
+              <Typography
+                variant="h6"
+                sx={{ color: isDarkMode ? "text.secondary" : "text.primary", opacity: 0.8 }}
+              >
+                Check out our latest products
+              </Typography>
+            </motion.div>
+            <NewArrivals />
+          </div>
+        </section>
+
+        {/* Best Sellers Section */}
+        <section className={`py-16 ${isDarkMode ? 'bg-gray-800/50' : 'bg-gray-100/50'} backdrop-blur-sm`}>
+          <div className="max-w-7xl mx-auto px-4">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+              className="text-center mb-12"
+            >
+              <Typography
+                variant="h2"
+                sx={{
+                  fontWeight: 700,
+                  mb: 2,
+                  fontSize: { xs: "2rem", md: "2.5rem" },
+                  background: "linear-gradient(45deg, #90caf9 30%, #ce93d8 90%)",
+                  backgroundClip: "text",
+                  textFillColor: "transparent",
+                  WebkitBackgroundClip: "text",
+                  WebkitTextFillColor: "transparent",
+                }}
+              >
+                Best Sellers
+              </Typography>
+              <Typography
+                variant="h6"
+                sx={{ color: isDarkMode ? "text.secondary" : "text.primary", opacity: 0.8 }}
+              >
+                Our most popular products
+              </Typography>
+            </motion.div>
+            <BestSellers />
+          </div>
+        </section>
+      </div>
       <Footer />
-    </Box>
+    </>
   );
 };
 
