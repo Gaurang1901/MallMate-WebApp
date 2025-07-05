@@ -30,14 +30,14 @@ const Home: React.FC = () => {
 
   return (
     <Box
-      className="min-h-screen"
+      className="min-h-screen w-full overflow-x-hidden"
       sx={{
         bgcolor: theme.palette.background.default,
         color: theme.palette.text.primary,
       }}
     >
       {/* Hero Section */}
-      <section className="relative h-[60vh] overflow-hidden">
+      <section className="relative h-[60vh] overflow-hidden w-full">
         <AnimatePresence mode="wait">
           <motion.div
             key={currentImageIndex}
@@ -69,7 +69,7 @@ const Home: React.FC = () => {
             />
           </motion.div>
         </AnimatePresence>
-        <div className="relative container mx-auto px-4 h-full flex flex-col items-center justify-center text-center">
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full flex flex-col items-center justify-center text-center">
           <motion.h1
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -100,10 +100,10 @@ const Home: React.FC = () => {
       {/* Categories Section */}
       <Box
         component="section"
-        className="py-12"
+        className="py-12 w-full"
         sx={{ bgcolor: theme.palette.background.default }}
       >
-        <div className="container mx-auto px-4">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <h2
             className="text-2xl font-semibold mb-8 text-center"
             style={{ color: theme.palette.text.primary }}
@@ -120,7 +120,7 @@ const Home: React.FC = () => {
       {/* Features Section */}
       <Box
         component="section"
-        className="py-16"
+        className="py-16 w-full"
         sx={{
           bgcolor:
             theme.palette.mode === "dark"
@@ -128,7 +128,7 @@ const Home: React.FC = () => {
               : "rgba(0, 0, 0, 0.02)",
         }}
       >
-        <div className="container mx-auto px-4">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {[
               {
@@ -186,10 +186,10 @@ const Home: React.FC = () => {
       {/* Stats Section */}
       <Box
         component="section"
-        className="py-16"
+        className="py-16 w-full"
         sx={{ bgcolor: theme.palette.background.default }}
       >
-        <div className="container mx-auto px-4">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
             {[
               { icon: Store, value: "200+", label: "Stores" },
@@ -233,7 +233,7 @@ const Home: React.FC = () => {
       {/* Upcoming Events Section */}
       <Box
         component="section"
-        className="py-16"
+        className="py-16 w-full"
         sx={{
           bgcolor:
             theme.palette.mode === "dark"
@@ -241,7 +241,7 @@ const Home: React.FC = () => {
               : "rgba(0, 0, 0, 0.02)",
         }}
       >
-        <div className="container mx-auto px-4">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <h2
             className="text-2xl font-semibold mb-8 text-center"
             style={{ color: theme.palette.text.primary }}

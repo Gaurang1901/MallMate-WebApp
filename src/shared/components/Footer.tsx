@@ -24,7 +24,7 @@ const Footer: React.FC = () => {
   return (
     <Box
       component="footer"
-      className="w-full border-t"
+      className="w-full border-t overflow-hidden"
       sx={{
         bgcolor: theme.palette.background.default,
         color: theme.palette.text.primary,
@@ -33,7 +33,7 @@ const Footer: React.FC = () => {
         pb: 2,
       }}
     >
-      <div className="container mx-auto px-4">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <Box
           className="grid grid-cols-1 md:grid-cols-4 gap-8 shadow-lg rounded-2xl p-6 mb-8"
           sx={{
