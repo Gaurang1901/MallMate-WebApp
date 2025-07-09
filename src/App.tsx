@@ -17,6 +17,7 @@ import ProductView from "./pages/ProductView/ProductView";
 import ShopAll from "./pages/categories/ShopAll";
 import CategoryPage from "./pages/categories/CategoryPage";
 import FAQ from "./pages/FAQ";
+import { LoaderProvider } from "./context/LoaderContext";
 
 function App() {
   const [mode, setMode] = useState<"light" | "dark">("dark");
@@ -34,26 +35,28 @@ function App() {
 
   return (
     <ThemeProvider theme={getTheme(mode)}>
-      <NotificationProvider>
-        <Router>
-          <Header
-            onThemeToggle={toggleTheme}
-            currentMode={mode}
-          />
-          <Routes>
-            <Route path="/signin" element={<LoginPage />} />
-            <Route path="/signup" element={<SignupPage />} />
-            <Route path="/" element={<Home />} />
-            <Route path="/about" element={<About />} />
-            <Route path="/contact" element={<Contact />} />
-            <Route path="/account" element={isLoggedIn ? <Account /> : <LoginPage />} />
-            <Route path="/product/:id" element={<ProductView />} />
-            <Route path="/faq" element={<FAQ />} />
-            <Route path="/shop" element={<ShopAll />} />
-            <Route path="/category/:categoryId" element={<CategoryPage categoryId="1" categoryName="Electronics" />} />
-          </Routes>
-        </Router>
-      </NotificationProvider>
+      <LoaderProvider>
+        <NotificationProvider>
+          <Router>
+            <Header
+              onThemeToggle={toggleTheme}
+              currentMode={mode}
+            />
+            <Routes>
+              <Route path="/signin" element={<LoginPage />} />
+              <Route path="/signup" element={<SignupPage />} />
+              <Route path="/" element={<Home />} />
+              <Route path="/about" element={<About />} />
+              <Route path="/contact" element={<Contact />} />
+              <Route path="/account" element={isLoggedIn ? <Account /> : <LoginPage />} />
+              <Route path="/product/:id" element={<ProductView />} />
+              <Route path="/faq" element={<FAQ />} />
+              <Route path="/shop" element={<ShopAll />} />
+              <Route path="/category/:categoryId" element={<CategoryPage categoryId="1" categoryName="Electronics" />} />
+            </Routes>
+          </Router>
+        </NotificationProvider>
+      </LoaderProvider>
     </ThemeProvider>
   );
 }
