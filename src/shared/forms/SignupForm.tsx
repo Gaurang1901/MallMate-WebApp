@@ -8,15 +8,21 @@ import type { AppDispatch } from "../../store";
 import { useNotification } from "../../context/NotificationContext";
 import { motion } from "framer-motion";
 import { Eye, EyeOff } from "lucide-react";
+import { useLoader } from "../../context/LoaderContext";
+import { useNavigate } from "react-router-dom";
 
 const MotionTextField = motion(TextField);
 const MotionButton = motion(Button);
 
 const SignupFormComponent: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
-  const { loading, user, token, error } = useSelector((state: any) => state.auth);
+  const navigation = useNavigate();
+  const { loading, user, token, error } = useSelector(
+    (state: any) => state.auth
+  );
   const { showNotification } = useNotification();
   const [showPassword, setShowPassword] = useState(false);
+  const { showLoader, hideLoader } = useLoader();
 
   const {
     register,
@@ -25,16 +31,25 @@ const SignupFormComponent: React.FC = () => {
   } = useForm<SignupPayload>();
 
   React.useEffect(() => {
+    if (loading) {
+      showLoader();
+    } else {
+      hideLoader();
+    }
     if (error) {
       showNotification(error, "error");
+      hideLoader();
     }
     if (user && token) {
+      hideLoader();
       showNotification("Account created successfully!", "success");
+      navigation("/"); // Navigate after successful signup
     }
-  }, [error, user, token, showNotification]);
+  }, [loading, error, user, token, showNotification, showLoader, hideLoader, navigation]);
 
   const onSubmit: SubmitHandler<SignupPayload> = (data) => {
     dispatch(signupUser(data));
+    // navigation("/"); // Remove this line
   };
 
   const handleClickShowPassword = () => {
@@ -120,4 +135,4 @@ const SignupFormComponent: React.FC = () => {
   );
 };
 
-export { SignupFormComponent as SignupForm }; 
+export { SignupFormComponent as SignupForm };

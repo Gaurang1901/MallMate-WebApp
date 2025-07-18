@@ -9,7 +9,8 @@ import { motion } from "framer-motion";
 import { Eye, EyeOff } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { AppDispatch } from "@/store";
-import { loginUser } from "@/store/auth.slice";
+import { loginUser, clearError } from "@/store/auth.slice";
+import { useLoader } from '../../context/LoaderContext';
 
 const MotionTextField = motion(TextField);
 const MotionButton = motion(Button);
@@ -23,6 +24,7 @@ const LoginFormComponent: React.FC = () => {
   );
   const { showNotification } = useNotification();
   const [showPassword, setShowPassword] = useState(false);
+  const { showLoader, hideLoader } = useLoader();
 
   const {
     register,
@@ -31,26 +33,39 @@ const LoginFormComponent: React.FC = () => {
   } = useForm<LoginForm>();
 
   React.useEffect(() => {
+    dispatch(clearError()); // Clear error on mount
+  }, [dispatch]);
+
+  React.useEffect(() => {
+    if (loading) {
+      showLoader();
+    } else {
+      hideLoader();
+    }
     if (error) {
       showNotification(error, "error");
+      hideLoader(); // Ensure loader is hidden on error
     }
     if (user && token) {
       showNotification("Logged in successfully!", "success");
+      hideLoader();
+      navigation("/"); // Navigate after successful login
     }
-  }, [error, user, token, showNotification]);
+  }, [loading, error, user, token, showNotification, showLoader, hideLoader, navigation]);
 
   const onSubmit: SubmitHandler<LoginForm> = (data) => {
     // showNotification("Backend Not Available!", "info");
     console.log(data);
-
     dispatch(loginUser(data));
-    // if (isLoggedIn) {
-      navigation("/");
-    // }
+    // navigation("/"); // Remove this line
   };
 
   const handleClickShowPassword = () => {
     setShowPassword(!showPassword);
+  };
+
+  const handleInputChange = () => {
+    dispatch(clearError());
   };
 
   return (
@@ -73,6 +88,7 @@ const LoginFormComponent: React.FC = () => {
         initial={{ opacity: 0, x: -20 }}
         animate={{ opacity: 1, x: 0 }}
         transition={{ delay: 0.2 }}
+        onChange={handleInputChange}
       />
       <MotionTextField
         label="Password"
@@ -100,6 +116,7 @@ const LoginFormComponent: React.FC = () => {
         initial={{ opacity: 0, x: -20 }}
         animate={{ opacity: 1, x: 0 }}
         transition={{ delay: 0.3 }}
+        onChange={handleInputChange}
       />
       <MotionButton
         type="submit"
