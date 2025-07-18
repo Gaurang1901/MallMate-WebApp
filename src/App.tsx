@@ -18,9 +18,16 @@ import ShopAll from "./pages/categories/ShopAll";
 import CategoryPage from "./pages/categories/CategoryPage";
 import FAQ from "./pages/FAQ";
 import { LoaderProvider } from "./context/LoaderContext";
+import CartPage from './pages/CartPage';
 
 function App() {
-  const [mode, setMode] = useState<"light" | "dark">("dark");
+  const getInitialMode = () => {
+    const stored = sessionStorage.getItem('themeMode');
+    if (stored === 'light' || stored === 'dark') return stored;
+    sessionStorage.setItem('themeMode', 'dark');
+    return 'dark';
+  };
+  const [mode, setMode] = useState<"light" | "dark">(getInitialMode());
   const dispatch = useDispatch();
   const isLoggedIn = useSelector((state: RootState) => state.auth.isLoggedIn);
 
@@ -30,7 +37,11 @@ function App() {
   }, [dispatch]);
 
   const toggleTheme = () => {
-    setMode((prevMode) => (prevMode === "light" ? "dark" : "light"));
+    setMode((prevMode) => {
+      const newMode = prevMode === 'light' ? 'dark' : 'light';
+      sessionStorage.setItem('themeMode', newMode);
+      return newMode;
+    });
   };
 
   return (
@@ -53,6 +64,7 @@ function App() {
               <Route path="/faq" element={<FAQ />} />
               <Route path="/shop" element={<ShopAll />} />
               <Route path="/category/:categoryId" element={<CategoryPage categoryId="1" categoryName="Electronics" />} />
+              <Route path="/cart" element={<CartPage />} />
             </Routes>
           </Router>
         </NotificationProvider>

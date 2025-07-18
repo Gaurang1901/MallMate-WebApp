@@ -25,6 +25,7 @@ import {
   LogOut,
   // Store,
   X,
+  ShoppingCart,
 } from "lucide-react";
 import { Sidebar } from "./Sidebar";
 import { motion, AnimatePresence } from "framer-motion";
@@ -198,10 +199,6 @@ export const Header: React.FC<HeaderProps> = ({
                             item.name === "Logout"
                               ? "error.light"
                               : theme.palette.action.hover,
-                          color:
-                            item.name === "Logout"
-                              ? "error.contrastText"
-                              : theme.palette.text.primary,
                         },
                       }}
                     >
@@ -347,25 +344,19 @@ export const Header: React.FC<HeaderProps> = ({
 
               {isLoggedIn ? (
                 <>
-                  <Tooltip title="Notifications">
-                    <MotionIconButton
-                      whileHover={{
-                        scale: 1.2,
-                        y: -2,
-                      }}
-                      whileTap={{ scale: 0.9 }}
+                  <Tooltip title="Cart">
+                    <IconButton
+                      onClick={() => navigate("/cart")}
                       sx={{
-                        color: theme.palette.text.primary,
-                        display: { xs: "none", md: "flex" },
-                        "&:hover": {
-                          backgroundColor: theme.palette.action.hover,
-                        },
+                        ml: 1,
+                        color:
+                          theme.palette.mode === "dark"
+                            ? "primary.light"
+                            : "primary.main",
                       }}
                     >
-                      <Badge badgeContent={3} color="error">
-                        <Bell />
-                      </Badge>
-                    </MotionIconButton>
+                      <ShoppingCart />
+                    </IconButton>
                   </Tooltip>
                   <Tooltip title="Profile">
                     <MotionIconButton
@@ -413,25 +404,7 @@ export const Header: React.FC<HeaderProps> = ({
                   </Tooltip>
                 </>
               ) : (
-                <Tooltip title="Sign In">
-                  <MotionIconButton
-                    onClick={handleProfileClick}
-                    whileHover={{
-                      scale: 1.2,
-                      y: -2,
-                    }}
-                    whileTap={{ scale: 0.9 }}
-                    sx={{
-                      color: theme.palette.text.primary,
-                      display: { xs: "none", md: "flex" },
-                      "&:hover": {
-                        backgroundColor: theme.palette.action.hover,
-                      },
-                    }}
-                  >
-                    <UserCircle />
-                  </MotionIconButton>
-                </Tooltip>
+                <></>
               )}
 
               {/* Mobile Menu Button */}

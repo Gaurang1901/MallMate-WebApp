@@ -13,6 +13,8 @@ import {
 } from '@mui/material';
 import { motion } from 'framer-motion';
 import { ShoppingCart, Heart, Share2 } from 'lucide-react';
+import { useDispatch } from 'react-redux';
+import { addToCart } from '../store/cart.slice';
 
 interface Product {
   id: number;
@@ -32,6 +34,18 @@ interface ProductCardProps {
 const ProductCard: React.FC<ProductCardProps> = ({ product, onClick }) => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+  const dispatch = useDispatch();
+
+  const handleAddToCart = (event: React.MouseEvent) => {
+    event.stopPropagation();
+    dispatch(addToCart({ ...product, quantity: 1 }));
+    if (window && window.dispatchEvent) {
+      // Optionally trigger a custom event for notification
+      window.dispatchEvent(new CustomEvent('cart:add', { detail: product }));
+    } else {
+      alert('Added to cart!');
+    }
+  };
 
   return (
     <Card
@@ -41,7 +55,10 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, onClick }) => {
         display: 'flex',
         flexDirection: isMobile ? 'column' : 'row',
         height: isMobile ? 'auto' : 200,
-        bgcolor: theme.palette.background.paper,
+        bgcolor: 'transparent',
+        background: theme.palette.mode === 'dark'
+          ? 'linear-gradient(135deg, #23233b 0%, #18181b 100%)'
+          : 'linear-gradient(135deg, #f8fafc 0%, #e0e7ef 100%)',
         borderRadius: 2,
         overflow: 'hidden',
         cursor: onClick ? 'pointer' : 'default',
@@ -211,7 +228,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, onClick }) => {
         <Button
           variant="contained"
           startIcon={<ShoppingCart size={16} />}
-          onClick={(event) => event.stopPropagation()}
+          onClick={handleAddToCart}
           sx={{
             alignSelf: 'center',
             textTransform: 'none',
