@@ -70,13 +70,13 @@ const ProductCarousel: React.FC = () => {
   return (
     <Box 
       component="section" 
-      className="py-16"
+      className="py-16 w-full overflow-hidden"
       sx={{ 
         bgcolor: theme.palette.background.default,
         color: theme.palette.text.primary
       }}
     >
-      <div className="container mx-auto px-4">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <Typography 
           variant="h2" 
           className="text-2xl font-semibold mb-8 text-center"
@@ -97,7 +97,7 @@ const ProductCarousel: React.FC = () => {
             {products.map((product) => (
               <CarouselItem 
                 key={product.id} 
-                className={`pl-4 ${isMobile ? 'basis-full' : 'basis-1/2 md:basis-1/3 lg:basis-1/4'}`}
+                className={`pl-4 ${isMobile ? 'basis-full' : 'basis-1/2 md:basis-1/3 lg:basis-1/4 xl:basis-1/5'}`}
               >
                 <Box
                   className="h-full p-4 rounded-lg"
